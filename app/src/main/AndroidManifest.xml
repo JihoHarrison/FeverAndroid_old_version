@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MatchCubeAndroid">
-        <activity android:name=".activity.register.RegisterActivity"></activity>
-        <activity android:name=".activity.login.LoginActivity" />
-        <activity android:name=".activity.main.MainActivity">
+        <activity android:name=".activities.register.RegisterActivity"></activity>
+        <activity android:name=".activities.login.LoginActivity" />
+        <activity android:name=".activities.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

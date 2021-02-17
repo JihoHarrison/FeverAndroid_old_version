@@ -1,4 +1,4 @@
-package com.example.matchcubeandroid.activity.main
+package com.example.matchcubeandroid.activities.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
