@@ -1,7 +1,12 @@
-package com.example.matchcubeandroid
+package com.example.matchcubeandroid.activity.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.matchcubeandroid.*
+import com.example.matchcubeandroid.fragments.LiveFragment
+import com.example.matchcubeandroid.fragments.MatchFragment
+import com.example.matchcubeandroid.fragments.MessengerFragment
+import com.example.matchcubeandroid.fragments.MyPageFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.matchcubeandroid.register
+package com.example.matchcubeandroid.activity.register
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
