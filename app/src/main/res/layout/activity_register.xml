@@ -16,6 +16,12 @@
         android:hint="아이디를 입력하세요"
         ></EditText>
     <EditText
+        android:id="@+id/editName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="이름을 입력하세요"
+        ></EditText>
+    <EditText
         android:id="@+id/editPw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
