@@ -18,21 +18,12 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        btnLogin = findViewById<Button>(R.id.btnLogin)
-        btnRegister = findViewById<Button>(R.id.btnRegister)
-        editId = findViewById<EditText>(R.id.editId)
-        editPw = findViewById<EditText>(R.id.editPw)
+        btnLogin?.setOnClickListener (){
 
-        btnLogin?.setOnClickListener (object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                // TODO
-            }
-        })
+        }
 
-        btnRegister?.setOnClickListener(object : View.OnClickListener{
-            override fun onClick(v: View?) {
-                // TODO
-            }
+        btnRegister?.setOnClickListener({
+
         })
     }
 }

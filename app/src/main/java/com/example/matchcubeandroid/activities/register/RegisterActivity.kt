@@ -16,13 +16,8 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
-        btnRegister = findViewById<Button>(R.id.btnRegister) // 회원가입 버튼 클릭 이벤트 리스너 ID
-        editEmail = findViewById<EditText>(R.id.editEmail) // 사용자로부터 이메일을 입력받는 EditText의 ID
+        btnRegister?.setOnClickListener({ // 회원 가입 버튼 클릭 이벤트 리스너
 
-        btnRegister?.setOnClickListener(object : View.OnClickListener{ // 회원 가입 버튼 클릭 이벤트 리스너
-            override fun onClick(v: View?) {
-                // TODO
-            }
         })
 
 
