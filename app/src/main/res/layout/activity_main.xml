@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.main.MainActivity">
-
+    <include layout="@layout/main_toolbar"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="메인 레이아웃"
+        android:textColor="#000000"/>
     <LinearLayout
         android:id="@+id/fragmentlinearLayout"
         android:layout_width="match_parent"
@@ -15,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/match"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +30,7 @@
             android:text="Match"
             android:textAllCaps="false" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/messenger"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +38,7 @@
             android:text="Messenger"
             android:textAllCaps="false" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/live"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,7 +46,7 @@
             android:text="Live"
             android:textAllCaps="false" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/mypage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

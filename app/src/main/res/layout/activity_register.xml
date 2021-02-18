@@ -14,30 +14,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="아이디를 입력하세요"
+        android:background="@drawable/button_shape"
+        android:inputType="text"
         ></EditText>
     <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="이름을 입력하세요"
+        android:background="@drawable/button_shape"
+        android:inputType="text"
         ></EditText>
     <EditText
         android:id="@+id/editPw"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="패스워드를 입력하세요"
+        android:background="@drawable/button_shape"
+        android:inputType="text"
         ></EditText>
     <EditText
         android:id="@+id/editEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="이메일을 입력하세요"
+        android:background="@drawable/button_shape"
+        android:inputType="text"
         ></EditText>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="회원가입 완료"
-        ></Button>
+        android:background="@drawable/button_shape"
+        ></androidx.appcompat.widget.AppCompatButton>
 
 </LinearLayout>
