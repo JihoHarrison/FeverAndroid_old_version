@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // Godd
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        main_navigationView.setNavigationItemSelectedListener(this)
+        main_navigationView?.setNavigationItemSelectedListener(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(main_layout_toolbar) // 툴바를 액티비티의 앱바로 지정
