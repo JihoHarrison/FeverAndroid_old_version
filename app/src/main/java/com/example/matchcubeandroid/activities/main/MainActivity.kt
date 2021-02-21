@@ -85,6 +85,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.item2-> Toast.makeText(this,"item2 clicked",Toast.LENGTH_SHORT).show()
             R.id.item3-> Toast.makeText(this,"item3 clicked", Toast.LENGTH_SHORT).show()
         }
+        main_drawer_layout.closeDrawers()
         return false
     }
 
