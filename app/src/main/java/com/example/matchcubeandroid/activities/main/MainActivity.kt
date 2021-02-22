@@ -14,39 +14,19 @@ import com.example.matchcubeandroid.fragments.MessengerFragment
 import com.example.matchcubeandroid.fragments.MyPageFragment
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.main.*
-import kotlinx.android.synthetic.main.main_toolbar.*
 
-class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     // Godd
-    override fun onBackPressed() {
-        if(main_drawer_layout.isDrawerOpen(GravityCompat.START)){
-            main_drawer_layout.closeDrawers()
-            // 테스트를 위해 뒤로가기 버튼시 Toast 메시지
-            Toast.makeText(this,"back btn clicked",Toast.LENGTH_SHORT).show()
-        } else{
-            super.onBackPressed()
-        }
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.account-> Toast.makeText(this,"account clicked",Toast.LENGTH_SHORT).show()
-            R.id.item2-> Toast.makeText(this,"item2 clicked",Toast.LENGTH_SHORT).show()
-            R.id.item3-> Toast.makeText(this,"item3 clicked",Toast.LENGTH_SHORT).show()
-        }
-        return false
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        btnNavi.setOnClickListener(){
+            layout_drawer.openDrawer(GravityCompat.START) // START : LEFT, END : RIGHT
+        }
 
-        setSupportActionBar(main_toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // 드로어를 꺼낼 홈 버튼 활성화
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_android_drawer) // 홈버튼 이미지 변경
-        supportActionBar?.setDisplayShowTitleEnabled(false) // 툴바에 타이틀 안보이게
+        naviView.setNavigationItemSelectedListener(this) // 네비게이션 메뉴 item에 클릭 속성을 부여. (onClickListener 역할)
 
         match.setOnClickListener{
             supportFragmentManager.beginTransaction()
@@ -87,14 +67,22 @@ class MainActivity : AppCompatActivity(),  NavigationView.OnNavigationItemSelect
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean { // 네비게이션 메뉴 아이템 클릭 시 실행되는 메서드
         when(item.itemId){
-            android.R.id.home->{
-                activity_main.openDrawer(GravityCompat.START)
-            }
+            R.id.item1 -> Toast.makeText(applicationContext, "1번", Toast.LENGTH_SHORT).show()
+            R.id.item2 -> Toast.makeText(applicationContext, "2번", Toast.LENGTH_SHORT).show()
+            R.id.item3 -> Toast.makeText(applicationContext, "3번", Toast.LENGTH_SHORT).show()
         }
-        return true
+        layout_drawer.closeDrawers()
+        return false
     }
 
-
+    override fun onBackPressed() {
+        if(layout_drawer.isDrawerOpen(GravityCompat.START)){ // DrawerView가 열려있을 경우
+            layout_drawer.closeDrawers() // 백 버튼 누를 시 드로어 닫힘
+        }
+        else{
+            super.onBackPressed() // 열려있지 않을 경우 일반 finish 메서드 실행
+        }
+    }
 }
