@@ -34,7 +34,7 @@ class LoginActivity : AppCompatActivity() {
                 .enqueue(object : retrofit2.Callback<LogInModel> {
                     override fun onResponse(call: Call<LogInModel>, response: Response<LogInModel>) {
 
-                        if (response.body()?.statusCode == 200){
+                        if (response.body()?.statusCode == 200){ // 200 : successful
                             val data = response.body()?.data
                             data?.let { success(data) }
                             val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)

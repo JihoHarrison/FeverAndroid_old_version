@@ -12,9 +12,9 @@ import java.util.concurrent.TimeUnit
 
 object Client {
 
-    //private const val BASE_URL_NAVER_API = "https://openapi.naver.com/"
-    //private const val CLIENT_ID =
-    //private const val CLIENT_SECRET =
+    // private const val BASE_URL_NAVER_API = "https://openapi.naver.com/"
+    // private const val CLIENT_ID =
+    // private const val CLIENT_SECRET =
     private const val BASE_URL = "http://10.0.2.2:8080/"
 
     val retrofitService: API
