@@ -16,11 +16,16 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
-    // Godd
+    val PREFERENCE = "template.android.hyogeuns"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
+        var accountId = pref.getInt("accountId", 0)
+        var name = pref.getString("name", "")
+        var nickName = pref.getString("nickName", "")
 
         btnNavi.setOnClickListener(){
             layout_drawer.openDrawer(GravityCompat.START) // START : LEFT, END : RIGHT
@@ -36,9 +41,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         messenger.setOnClickListener{
             // 로그인 상태인지 체크후 아니면 로그인 액티비티로 전환
-            if ( 1 == 0 ){
-            }
-            else{
+            if ( accountId == null ){
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
             }
