@@ -15,6 +15,7 @@ object Client {
     //private const val BASE_URL_NAVER_API = "https://openapi.naver.com/"
     //private const val CLIENT_ID =
     //private const val CLIENT_SECRET =
+    private const val BASE_URL = "http://10.0.2.2:8080/"
 
     val retrofitService: API
 
@@ -24,7 +25,7 @@ object Client {
         val logger = OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(20, TimeUnit.SECONDS).writeTimeout(20, TimeUnit.SECONDS).build()
 //10.0.2.2
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://10.0.2.2:8080/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(logger)
                 .build()
