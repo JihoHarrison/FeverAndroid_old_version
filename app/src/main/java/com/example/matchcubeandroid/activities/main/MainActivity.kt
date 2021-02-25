@@ -12,20 +12,27 @@ import com.example.matchcubeandroid.fragments.LiveFragment
 import com.example.matchcubeandroid.fragments.MatchFragment
 import com.example.matchcubeandroid.fragments.MessengerFragment
 import com.example.matchcubeandroid.fragments.MyPageFragment
+import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
-    val PREFERENCE = "template.android.hyogeuns"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
-        var accountId = pref.getInt("accountId", 0)
-        var name = pref.getString("name", "")
-        var nickName = pref.getString("nickName", "")
+        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
+        if(MySharedPreferences.getUserId(this).isNullOrBlank() || MySharedPreferences.getUserPass(this).isNullOrBlank()) {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
+        else if (MySharedPreferences.getAutoChecked(this).equals("Y")){ // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
+            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+        else{
+            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
+        }
 
         btnNavi.setOnClickListener(){
             layout_drawer.openDrawer(GravityCompat.START) // START : LEFT, END : RIGHT
@@ -40,11 +47,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         messenger.setOnClickListener{
-            // 로그인 상태인지 체크후 아니면 로그인 액티비티로 전환
-            if ( accountId == null ){
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmnetview, MessengerFragment())
                     .commit()
@@ -57,13 +59,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         mypage.setOnClickListener{
-            // 로그인 상태인지 체크후 아니면 로그인 액티비티로 전환
-            if ( 1 == 0 ){
-            }
-            else{
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
-            }
             supportFragmentManager.beginTransaction()
                     .replace(R.id.fragmnetview, MyPageFragment())
                     .commit()
@@ -87,5 +82,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         else{
             super.onBackPressed() // 열려있지 않을 경우 일반 finish 메서드 실행
         }
+    }
+
+    override fun onDestroy() {
+        if(MySharedPreferences.getAutoChecked(this).equals("N")){
+            MySharedPreferences.clearUser(this)
+        }
+        super.onDestroy()
     }
 }

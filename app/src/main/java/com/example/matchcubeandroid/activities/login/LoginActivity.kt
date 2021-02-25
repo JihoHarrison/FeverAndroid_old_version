@@ -10,7 +10,7 @@ import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.activities.register.RegisterActivity
 import com.example.matchcubeandroid.model.LogInModel
 import com.example.matchcubeandroid.retrofit.Client
-import com.example.matchcubeandroid.retrofit.SharedPref
+import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.Call
 import retrofit2.Response
@@ -18,14 +18,12 @@ import kotlin.Result.Companion.success
 
 class LoginActivity : AppCompatActivity() {
 
-    val PREFERENCE = "template.android.matchCube"
     private val TAG = "juntae"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-        SharedPref.openSharedPrep(this)
         btnLogin.setOnClickListener {
             // 서비스 호출부
             Client.retrofitService.logIn(
@@ -37,16 +35,17 @@ class LoginActivity : AppCompatActivity() {
                         if (response.body()?.statusCode == 200){ // 200 : successful
                             val data = response.body()?.data
                             data?.let { success(data) }
-                            val pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE)
-                            val editor = pref.edit()
-                            // 자동 로그인 처리 ( 로그아웃 버튼 필요 )
+                            // 자동 로그인 처리
                             if ( checkAutoLogin.isChecked()) {
-                                response.body()?.data?.accountId?.let { it1 -> editor.putInt("accountId", it1.toInt()) }
-                                editor.putString("name", response.body()?.data?.name)
-                                editor.putString("nickName", response.body()?.data?.nickName)
+                                MySharedPreferences.setAutoChecked(this@LoginActivity, "Y")
                             }
-                            editor.commit()
-                            finish()
+                            else{
+                                MySharedPreferences.setAutoChecked(this@LoginActivity, "N")
+                            }
+                            // 데이터 저장
+                            MySharedPreferences.setUserId(this@LoginActivity, editId.text.toString())
+                            MySharedPreferences.setUserPass(this@LoginActivity, editPw.text.toString())
+
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
 
                         } else{

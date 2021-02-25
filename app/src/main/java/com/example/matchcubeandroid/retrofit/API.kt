@@ -7,7 +7,7 @@ import retrofit2.http.*
 // REST API 요청을 위한 인터페이스
 
 interface API {
-    @POST("logIn") // 로그인
+    @POST("login") // 로그인
     @FormUrlEncoded
     fun logIn(
         @Field("emailId") emailId: String,
