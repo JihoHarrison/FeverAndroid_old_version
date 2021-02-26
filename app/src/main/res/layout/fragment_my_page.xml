@@ -4,22 +4,121 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fragment_My_Page"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/logoutbt"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Logout" />
+        android:orientation="horizontal">
+        <TextView
+            android:paddingTop="7sp"
+            android:id="@+id/txtMyPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="마이페이지"
+            android:textSize="25sp"></TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/logoutbt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:text="Logout" ></androidx.appcompat.widget.AppCompatButton>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"></LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="내 프로필"
+        android:textSize="20sp"
+        ></TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/sony_sample"
+            ></de.hdodenhof.circleimageview.CircleImageView>
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="손흥민"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/imgProfile"
+            ></TextView>
+        <TextView
+            android:id="@+id/txtNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Sony"
+            android:layout_marginLeft="15dp"
+            android:layout_below="@id/txtName"
+            android:layout_toRightOf="@id/imgProfile"
+            ></TextView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnShowMyProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="프로필 보기"
+            android:background="@drawable/button_shape"
+            android:layout_toRightOf="@id/imgProfile"
+            android:layout_below="@id/txtNickName"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditMyProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/btnShowMyProfile"
+            android:layout_below="@id/txtNickName"
+            android:background="@drawable/button_shape"
+            android:layout_marginLeft="25dp"
+            android:text="수정하기" />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/txtMyTeams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="내 소속팀"
+            android:textSize="20sp"
+            ></TextView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTeamProfImgs"
+            android:layout_below="@id/txtMyTeams"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+
+
+
+
+    </RelativeLayout>
+
+
+
 </LinearLayout>
