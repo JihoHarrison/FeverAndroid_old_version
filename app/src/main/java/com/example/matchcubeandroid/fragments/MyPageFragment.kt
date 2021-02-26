@@ -38,7 +38,8 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         val btn: Button = view.findViewById(R.id.logoutbt)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         btn.setOnClickListener(this)
-        val profileList = arrayListOf( // SharedPreference에 저장된 값으로 수정 가능 할 것으로 보임!
+
+        val profileList = arrayListOf( // DB에 저장된 값으로 수정 가능 할 것으로 보임!
             ProfileModel(R.drawable.ic_android_drawer, "토트넘"),
             ProfileModel(R.drawable.ic_android_drawer, "함부르크"),
             ProfileModel(R.drawable.ic_android_drawer, "레버쿠젠"),
