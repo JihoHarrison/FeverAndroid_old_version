@@ -10,14 +10,6 @@
     tools:context=".activities.register.RegisterActivity">
 
     <EditText
-        android:id="@+id/editId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="아이디를 입력하세요"
-        android:background="@drawable/button_shape"
-        android:inputType="text"
-        ></EditText>
-    <EditText
         android:id="@+id/editName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

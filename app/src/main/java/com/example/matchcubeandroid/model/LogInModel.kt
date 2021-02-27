@@ -10,6 +10,8 @@ data class LogInModel(
 )
 
 data class LogInModelData(
+    var emailId: String,
+    var password: String,
     var accountId: Int,
     var name: String,
     var nickName: String,
