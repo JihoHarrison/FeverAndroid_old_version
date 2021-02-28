@@ -73,13 +73,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-
-
-
-
-
-
-
         btnLogin.setOnClickListener {
             val body = HashMap<String, String>()
             body.put("emailId", editId.text.toString() )

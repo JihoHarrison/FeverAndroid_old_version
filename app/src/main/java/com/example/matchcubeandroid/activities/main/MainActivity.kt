@@ -67,9 +67,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         }
 
-
-
-
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean { // 네비게이션 메뉴 아이템 클릭 시 실행되는 메서드
@@ -78,6 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.item2 -> Toast.makeText(applicationContext, "2번", Toast.LENGTH_SHORT).show()
             R.id.item3 -> Toast.makeText(applicationContext, "3번", Toast.LENGTH_SHORT).show()
         }
+
         layout_drawer.closeDrawers()
         return false
     }
