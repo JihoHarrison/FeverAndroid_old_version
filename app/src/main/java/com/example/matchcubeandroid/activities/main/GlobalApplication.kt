@@ -1,21 +1,19 @@
 package com.example.matchcubeandroid.activities.main
 
 import android.app.Application
-import android.content.pm.ApplicationInfo
-import android.content.pm.PackageManager
-import android.os.Bundle
+import android.util.Log
+import com.example.matchcubeandroid.R
 import com.kakao.sdk.common.KakaoSdk
 
 class GlobalApplication : Application() {
+    private val TAG = "retrofit"
+
     override fun onCreate() {
         super.onCreate()
 
-        val appInfo: ApplicationInfo = getPackageManager().getApplicationInfo(this.getPackageName(), PackageManager.GET_META_DATA);
-        val aBundle: Bundle = appInfo.metaData
-        val aValue: String? = aBundle.getString("aKey");
+        val aValue: String = resources.getString(R.string.kakao_app_key)
+        //Log.d(TAG, "meta : " + "${aValue}")
 
-        if (aValue != null) {
-            KakaoSdk.init(this, aValue)
-        }
+        KakaoSdk.init(this, aValue)
     }
 }

@@ -59,7 +59,6 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0' // DrawerLayout
     implementation 'com.google.android.material:material:1.0.0' // NavigationView
     // 카카오 로그인
-    implementation group: 'com.kakao.sdk', name: 'usermgmt', version:'1.23.0'
     implementation "com.kakao.sdk:v2-user:2.3.0" // 카카오 로그인
 
 }
