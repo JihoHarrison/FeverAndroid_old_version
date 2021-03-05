@@ -18,7 +18,7 @@ import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
         }
 
-        btnNavi.setOnClickListener(){
+        btnNavi.setOnClickListener{
             layout_drawer.openDrawer(GravityCompat.START) // START : LEFT, END : RIGHT
         }
 
