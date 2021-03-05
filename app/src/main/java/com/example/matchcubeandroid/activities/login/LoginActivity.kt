@@ -53,11 +53,13 @@ class LoginActivity : AppCompatActivity() {
                 }
                 else -> { // Unknown
                     Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "${error.toString()}")
                 }
             }
         }
         else if (token != null) {
             Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }
     }
 
@@ -110,9 +112,19 @@ class LoginActivity : AppCompatActivity() {
                     }
                 })
         }
+
         btnRegister.setOnClickListener{
             val intent = Intent(this, RegisterActivity::class.java)
             startActivity(intent)
         }
+
+        btnKakaoLogin.setOnClickListener {
+            if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
+                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
+            }else{
+                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+            }
+        }
+
     }
 }
