@@ -1,23 +1,23 @@
 package com.example.matchcubeandroid.activities.login
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.activities.register.RegisterActivity
+import com.example.matchcubeandroid.fragments.MyPageFragment
 import com.example.matchcubeandroid.model.LogInModel
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
-import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
@@ -30,16 +30,14 @@ import retrofit2.*
 import kotlin.Result.Companion.success
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     private val TAG = "retrofit"
     private lateinit var auth: FirebaseAuth
-    lateinit var authListener : FirebaseAuth.AuthStateListener
     //google client
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private val RC_SIGN_IN = 200
-
 
    // kakao
     val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
@@ -82,14 +80,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(){
+
         val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, 100)
+        startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == 100) {
+        if (requestCode == RC_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 // Google Sign In was successful, authenticate with Firebase
@@ -98,42 +97,41 @@ class LoginActivity : AppCompatActivity() {
                 firebaseAuthWithGoogle(account.idToken!!)
             } catch (e: ApiException) {
                 // Google Sign In failed, update UI appropriately
-                Log.w(TAG, "Google sign in failed", e)
+                Log.w(TAG, "구글 로그인 실패", e)
                 // ...
             }
         }
     }
 
-    private fun updateUI(account: FirebaseUser?) {
-
+    private fun updateUI(account: FirebaseUser?) { // 로그인 후에 AfterActivity로 intent로 옮겨준다
+            startActivity(Intent(this@LoginActivity, MyPageFragment::class.java))
+            finish()
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        // 로그인 한 기록이 있는지 확인
-
+    private fun signOut(){ // 로그아웃 함수
+        FirebaseAuth.getInstance().signOut()
     }
 
+    private fun revokeAccess(){ // 회원 탈퇴 함수
+        auth.currentUser.delete()
+    }
 
     private fun firebaseAuthWithGoogle(idToken: String) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener(this) { task ->
+        auth?.signInWithCredential(credential)
+                ?.addOnCompleteListener(this@LoginActivity) { task ->
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
-                        Log.d(TAG, "signInWithCredential:success")
+                        Log.d(TAG, "구글로그인 성공")
                         val user = auth.currentUser
-                        Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                         updateUI(user)
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.w(TAG, "signInWithCredential:failure", task.exception)
-                        Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
+                        Log.w(TAG, "signInWithCredential:failed", task.exception)
+                        Toast.makeText(this@LoginActivity, "로그인 실패", Toast.LENGTH_SHORT).show()
                         // ..
                         updateUI(null)
                     }
-
                     // ...
                 }
     }
@@ -142,24 +140,24 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
-
-
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("801343645302-nhv012aj5go93vujgcl3pqmvt5utucbs.apps.googleusercontent.com")
+                .requestIdToken("801343645302-3d4d6fakuasfvqjkpmh1b2hp8p4bvnsj.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
 
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
+        auth = FirebaseAuth.getInstance()
 
-
-        btnGoogleLogin.setOnClickListener{
-            // Configure Google Sign In
-            signIn()
-
+        if (auth.currentUser != null) {
+            val intent = Intent(application, MyPageFragment::class.java)
+            startActivity(intent)
+            finish()
         }
 
-
+        btnGoogleLogin.setOnClickListener {
+            signIn()
+        }
 
         btnKakaoLogin.setOnClickListener {
             if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
@@ -218,6 +216,10 @@ class LoginActivity : AppCompatActivity() {
                 LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
-
     }
+
+    override fun onClick(v: View?) {
+    }
+
+
 }
