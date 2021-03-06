@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "801343645302",
+    "project_id": "mclogin-76f23",
+    "storage_bucket": "mclogin-76f23.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:801343645302:android:a2ab145af1890017d2e157",
+        "android_client_info": {
+          "package_name": "com.example.matchcubeandroid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "801343645302-3d4d6fakuasfvqjkpmh1b2hp8p4bvnsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdTNU60AWkpXjn1hFS-abtiqJYCt2crCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "801343645302-3d4d6fakuasfvqjkpmh1b2hp8p4bvnsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
