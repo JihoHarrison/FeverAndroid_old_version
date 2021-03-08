@@ -19,5 +19,4 @@ class MatchCubeSplash : AppCompatActivity() {
             finish()
         }, SPLASH_VIEW_TIME)
     }
-
 }

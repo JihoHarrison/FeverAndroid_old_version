@@ -30,7 +30,7 @@ import retrofit2.*
 import kotlin.Result.Companion.success
 
 
-class LoginActivity : AppCompatActivity(), View.OnClickListener {
+class LoginActivity : AppCompatActivity() {
 
     private val TAG = "retrofit"
     private lateinit var auth: FirebaseAuth
@@ -217,9 +217,4 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
     }
-
-    override fun onClick(v: View?) {
-    }
-
-
 }
