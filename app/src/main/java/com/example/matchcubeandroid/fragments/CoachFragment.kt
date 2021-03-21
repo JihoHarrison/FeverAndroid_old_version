@@ -1,17 +1,17 @@
 package com.example.matchcubeandroid.fragments
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 
-class LiveFragment : Fragment()  {
+class CoachFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_live, container, false)
+        return inflater.inflate(R.layout.fragment_coach, container, false)
     }
 
     override fun onDestroy() {
@@ -20,4 +20,6 @@ class LiveFragment : Fragment()  {
         }
         super.onDestroy()
     }
+
+
 }

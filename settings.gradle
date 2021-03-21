@@ -1,2 +1,3 @@
+include ':naveridlogin_android_sdk_4.2.5'
 include ':app'
 rootProject.name = "MatchCubeAndroid"

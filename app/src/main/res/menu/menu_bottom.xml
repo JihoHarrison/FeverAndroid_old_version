@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent">
+
+
+    <item android:id="@+id/tabMatch" android:title="매치"
+        android:icon="@drawable/baseline_thumbs_up_down_black_18dp"/>
+
+    <item android:id="@+id/tabMessanger" android:title="메신저"
+        android:icon="@drawable/baseline_people_black_24"/>
+
+    <item android:id="@+id/tabCubeGround" android:title="C.G"
+        android:icon="@drawable/baseline_chat_bubble_black_24"/>
+
+    <item android:id="@+id/tabCoach" android:title="코치"
+        android:icon="@drawable/baseline_thumbs_up_down_black_18dp"/>
+
+    <item android:id="@+id/tabMyPage" android:title="마이"
+        android:icon="@drawable/ic_baseline_person_outline_24"/>
+</menu>

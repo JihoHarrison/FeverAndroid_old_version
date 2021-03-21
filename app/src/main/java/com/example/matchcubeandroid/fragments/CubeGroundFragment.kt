@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 
-class MatchFragment : Fragment() {
+class CubeGroundFragment : Fragment()  {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_match, container, false)
+        return inflater.inflate(R.layout.fragment_cubeground, container, false)
     }
 
     override fun onDestroy() {
@@ -20,6 +20,4 @@ class MatchFragment : Fragment() {
         }
         super.onDestroy()
     }
-
-
 }

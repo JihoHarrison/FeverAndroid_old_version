@@ -46,7 +46,5 @@
                     android:scheme="kakao{@string/kakao_app_key}" />
             </intent-filter>
         </activity>
-
     </application>
-
 </manifest>

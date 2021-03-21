@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.fragment_my_page.*
 
 class MyPageFragment : Fragment(), View.OnClickListener  {
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -75,4 +76,6 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         }
         super.onDestroy()
     }
+
+
 }
