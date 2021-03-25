@@ -69,15 +69,10 @@
         android:layout_height="2dp"
         android:background="#BDBDBD"/>
 
-
+    <!--FrameLayout으로 바꿀 예정-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/matchTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
        />
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/matchTabViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
 </LinearLayout>

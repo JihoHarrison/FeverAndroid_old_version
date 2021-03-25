@@ -10,14 +10,14 @@ import com.example.matchcubeandroid.R
 
 class Matchtabplayer : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_matchtabplayer, container, false)
+        val view = inflater.inflate(R.layout.fragment_matchtabplayer, container, false)
+
+
+
+
+        return view
     }
 
 }
