@@ -11,7 +11,9 @@ import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 class CoachFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_coach, container, false)
+        val view = inflater.inflate(R.layout.fragment_coach, container, false)
+
+        return view
     }
 
     override fun onDestroy() {

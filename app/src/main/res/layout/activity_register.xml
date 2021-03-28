@@ -17,6 +17,7 @@
         android:background="@drawable/button_shape"
         android:inputType="text"
         ></EditText>
+
     <EditText
         android:id="@+id/editPw"
         android:layout_width="match_parent"

@@ -31,48 +31,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:iconifiedByDefault="false"
-        app:queryHint="지역을 검색하세요"
-        >
-
+        app:queryHint="지역을 검색하세요">
 
     </androidx.appcompat.widget.SearchView>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/matchtab"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-        >
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/matchtab1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="matchtab1">
-
-            </com.google.android.material.tabs.TabItem>
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/matchtab2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="matchteb2">
-
-            </com.google.android.material.tabs.TabItem>
-
-
-        </com.google.android.material.tabs.TabLayout>
-
 
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#BDBDBD"/>
 
-    <!--FrameLayout으로 바꿀 예정-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/matchTabLayout"
+    <LinearLayout
+        android:id="@+id/matchTabLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       />
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnTeams"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀"
+            android:layout_weight="1"
+            ></androidx.appcompat.widget.AppCompatButton>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnplayers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀"
+            android:layout_weight="1"
+            ></androidx.appcompat.widget.AppCompatButton>
+
+
+        <FrameLayout
+            android:id="@+id/matchTabeFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+
 </LinearLayout>

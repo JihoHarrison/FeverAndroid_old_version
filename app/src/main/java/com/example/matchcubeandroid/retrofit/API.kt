@@ -1,5 +1,6 @@
 package com.example.matchcubeandroid.retrofit
 
+import com.example.matchcubeandroid.model.LocateModel
 import com.example.matchcubeandroid.model.LogInModel
 import com.example.matchcubeandroid.model.SignUpModel
 import retrofit2.Call
@@ -29,6 +30,10 @@ interface API {
 //        @Field("id") id: String
     ): Call<SignUpModel>
 
+    @Headers("accept: application/json",
+            "content-type: application/json")
+    @GET("city")
+    fun locate(): Call<LocateModel>
 
  // ID, PW 찾기
 }
