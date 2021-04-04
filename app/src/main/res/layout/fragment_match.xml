@@ -35,7 +35,6 @@
 
     </androidx.appcompat.widget.SearchView>
 
-
     </LinearLayout>
 
     <View
@@ -47,34 +46,36 @@
         android:id="@+id/matchTabLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnTeams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="팀"
-            android:layout_weight="1"
-            ></androidx.appcompat.widget.AppCompatButton>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnplayers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="팀"
-            android:layout_weight="1"
-            ></androidx.appcompat.widget.AppCompatButton>
+        android:orientation="vertical">
 
 
-        <FrameLayout
-            android:id="@+id/matchTabeFrame"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/matchTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabGravity="fill"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/design_default_color_primary"
+                app:tabIndicatorColor="@color/black">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/matchTeamTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="팀">
+                </com.google.android.material.tabs.TabItem>
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/matchPlayerTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="선수">
+                </com.google.android.material.tabs.TabItem>
+            </com.google.android.material.tabs.TabLayout>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/matchViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-        </FrameLayout>
-
+        </androidx.viewpager.widget.ViewPager>
 
     </LinearLayout>
-
-
-
 </LinearLayout>

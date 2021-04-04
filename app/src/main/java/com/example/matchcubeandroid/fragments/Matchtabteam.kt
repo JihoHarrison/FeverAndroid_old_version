@@ -1,6 +1,7 @@
 package com.example.matchcubeandroid.fragments
 
 import android.os.Bundle
+import android.service.autofill.FieldClassification
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +21,8 @@ class Matchtabteam : Fragment() {
 
         return view
     }
+
+
 
 
 }
