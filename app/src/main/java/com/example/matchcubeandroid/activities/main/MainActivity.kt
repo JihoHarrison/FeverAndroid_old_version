@@ -10,7 +10,16 @@ import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.fragments.*
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_main.*
+
+//1. (앱 - 카카오톡 서버)
+//- 안드로이드 앱에서 "카카오톡 로그인" 버튼을 클릭하면, 카카오톡 서버와 인증을 수행
+//- 카카오톡 서버와의 인증에 성공하면, 카카오톡으로부터 Access Token 을 획득
+//2. (앱 - was 서버)
+//- 획득된 Access Token을 장고 서버 인증 Endpoint(/accounts/rest-auth/kakao/)를 통해, JWT 토큰 획득
+//- 획득한 JWT 토큰이 만료되기 전에, 갱신(refresh)
+//- 획득한 JWT 토큰이 만료되었다면, Access Token을 서버로 전송하여 JWT 토큰 재획득
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -18,20 +27,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // SharedPreferences 안에 값이 저장되어 있지 않을 때 -> Login
-        if(MySharedPreferences.getUserId(this).isNullOrBlank() || MySharedPreferences.getUserPass(this).isNullOrBlank()) {
-            startActivity(Intent(this, LoginActivity::class.java))
+        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+            if (error != null) {
+                //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
+            else if (tokenInfo != null) {
+                //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
+            }
         }
-        else if (MySharedPreferences.getAutoChecked(this).equals("Y")){ // SharedPreferences 안에 값이 저장되어 있을 때 -> MainActivity로 이동
-            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 자동 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-        }
-        else{
-            Toast.makeText(this, "${MySharedPreferences.getUserId(this)}님 로그인 되었습니다.", Toast.LENGTH_SHORT).show()
-        }
-
-
-    bottom_navigation_view.setOnNavigationItemSelectedListener(this)
-
+        bottom_navigation_view.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

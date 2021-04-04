@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="naver_client_id">BwZ2B3X2H_0EV4K0lq2w</string>
-    <string name="naver_client_secret">sKYnn3hYS1</string>
-    <string name="naver_client_name">matchcube</string>
+    <string name="naver_client_id">zDX_nCtPFtuQFCV4avmi</string>
+    <string name="naver_client_secret">xGLK4BTMPD</string>
+    <string name="naver_client_name">matchCube</string>
 </resources>
