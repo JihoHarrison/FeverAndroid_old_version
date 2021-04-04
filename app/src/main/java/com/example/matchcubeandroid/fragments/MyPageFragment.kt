@@ -3,6 +3,7 @@ package com.example.matchcubeandroid.fragments
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.adapter.ProfileAdapter
 import com.example.matchcubeandroid.model.ProfileModel
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
+import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
 
@@ -64,8 +66,15 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.logoutbt -> {
-                MySharedPreferences.clearUser(requireContext())
-                startActivity(Intent(requireContext(), MainActivity::class.java))
+                UserApiClient.instance.logout { error ->
+                    if (error != null) {
+                        Toast.makeText(context, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                    }
+                    MySharedPreferences.clearUser(requireContext())
+                    startActivity(Intent(requireContext(), LoginActivity::class.java))
+                }
             }
         }
     }
@@ -76,6 +85,4 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         }
         super.onDestroy()
     }
-
-
 }

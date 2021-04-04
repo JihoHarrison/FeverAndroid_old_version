@@ -85,13 +85,12 @@
                 android:background="@drawable/btn_google_signin_light"
                 ></androidx.appcompat.widget.AppCompatButton>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnNaverLogin"
-                android:text="Naver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/button_shape"
-                ></androidx.appcompat.widget.AppCompatButton>
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:id="@+id/buttonOAuthLoginImg"
+                android:layout_width="190dp"
+                android:layout_height="50dp"
+                android:background="@drawable/naver_login">
+            </com.nhn.android.naverlogin.ui.view.OAuthLoginButton>
 
         </LinearLayout>
 

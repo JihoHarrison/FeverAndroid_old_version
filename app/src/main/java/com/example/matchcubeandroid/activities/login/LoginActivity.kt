@@ -1,16 +1,13 @@
 package com.example.matchcubeandroid.activities.login
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
-import com.example.matchcubeandroid.activities.register.RegisterActivity
 import com.example.matchcubeandroid.fragments.MyPageFragment
 import com.example.matchcubeandroid.model.LogInModel
 import com.example.matchcubeandroid.retrofit.Client
@@ -18,15 +15,14 @@ import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.kakao.sdk.auth.LoginClient
 import com.kakao.sdk.auth.model.OAuthToken
-import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.model.AuthErrorCause.*
+import com.nhn.android.naverlogin.*
 import kotlinx.android.synthetic.main.activity_login.*
 import retrofit2.*
 import kotlin.Result.Companion.success
@@ -34,55 +30,55 @@ import kotlin.Result.Companion.success
 
 class LoginActivity : AppCompatActivity() {
 
+    lateinit var mOAuthLoginInstance : OAuthLogin
+    lateinit var mContext: Context
+
     private val TAG = "retrofit"
     private lateinit var auth: FirebaseAuth
     //google client
     private lateinit var googleSignInClient: GoogleSignInClient
-
     private val RC_SIGN_IN = 200
 
    // kakao
-    val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (error != null) {
-            when {
-                error.toString() == AccessDenied.toString() -> {
-                    Toast.makeText(this, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == InvalidClient.toString() -> {
-                    Toast.makeText(this, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == InvalidGrant.toString() -> {
-                    Toast.makeText(this, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == InvalidRequest.toString() -> {
-                    Toast.makeText(this, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == InvalidScope.toString() -> {
-                    Toast.makeText(this, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == Misconfigured.toString() -> {
-                    Toast.makeText(this, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == ServerError.toString() -> {
-                    Toast.makeText(this, "서버 내부 에러", Toast.LENGTH_SHORT).show()
-                }
-                error.toString() == AuthErrorCause.Unauthorized.toString() -> {
-                    Toast.makeText(this, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
-                }
-                else -> { // Unknown
-                    Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "${error.toString()}")
-                }
-            }
-        }
-        else if (token != null) {
+   val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+       if (error != null) {
+           when {
+               error.toString() == AccessDenied.toString() -> {
+                   Toast.makeText(this, "접근이 거부 됨(동의 취소)", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == InvalidClient.toString() -> {
+                   Toast.makeText(this, "유효하지 않은 앱", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == InvalidGrant.toString() -> {
+                   Toast.makeText(this, "인증 수단이 유효하지 않아 인증할 수 없는 상태", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == InvalidRequest.toString() -> {
+                   Toast.makeText(this, "요청 파라미터 오류", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == InvalidScope.toString() -> {
+                   Toast.makeText(this, "유효하지 않은 scope ID", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == Misconfigured.toString() -> {
+                   Toast.makeText(this, "설정이 올바르지 않음(android key hash)", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == ServerError.toString() -> {
+                   Toast.makeText(this, "서버 내부 에러", Toast.LENGTH_SHORT).show()
+               }
+               error.toString() == Unauthorized.toString() -> {
+                   Toast.makeText(this, "앱이 요청 권한이 없음", Toast.LENGTH_SHORT).show()
+               }
+               else -> { // Unknown
+                   Toast.makeText(this, "기타 에러", Toast.LENGTH_SHORT).show()
+               }
+           }
+       }
+       else if (token != null) {
             Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
         }
     }
 
     private fun signIn(){
-
         val signInIntent = googleSignInClient.signInIntent
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
@@ -141,6 +137,24 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        //  네이버 아이디로 로그인
+        val naver_client_id = getString(R.string.naver_client_id)
+        val naver_client_secret = getString(R.string.naver_client_secret)
+        val naver_client_name = getString(R.string.naver_client_name)
+
+        mContext = this
+
+        mOAuthLoginInstance = OAuthLogin.getInstance()
+        mOAuthLoginInstance.init(mContext, naver_client_id, naver_client_secret, naver_client_name)
+        buttonOAuthLoginImg.setOAuthLoginHandler(mOAuthLoginHandler)
+
+//        if (mOAuthLoginInstance.getAccessToken(this) != null) {
+//            startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+//            finish();
+//        } else {
+//            binding.buttonOAuthLoginImg.setOAuthLoginHandler(new NaverHandler(this, oAuthLogin, this));
+//        }
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("801343645302-3d4d6fakuasfvqjkpmh1b2hp8p4bvnsj.apps.googleusercontent.com")
@@ -205,18 +219,28 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
+    }
 
-        btnRegister.setOnClickListener{
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
-        }
+    // Naver
+    val mOAuthLoginHandler: OAuthLoginHandler = object : OAuthLoginHandler() {
+        override fun run(success: Boolean) {
+            if (success) {
+//                val accessToken: String = mOAuthLoginModule.getAccessToken(baseContext)
+//                val refreshToken: String = mOAuthLoginModule.getRefreshToken(baseContext)
+//                val expiresAt: Long = mOAuthLoginModule.getExpiresAt(baseContext)
+//                val tokenType: String = mOAuthLoginModule.getTokenType(baseContext)
+//                var intent = Intent(this, )
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+            } else {
+                val errorCode: String = mOAuthLoginInstance.getLastErrorCode(mContext).code
+                val errorDesc = mOAuthLoginInstance.getLastErrorDesc(mContext)
 
-        btnKakaoLogin.setOnClickListener {
-            if(LoginClient.instance.isKakaoTalkLoginAvailable(this)){
-                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
-            }else{
-                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+                Toast.makeText(
+                        baseContext, "errorCode:" + errorCode
+                        + ", errorDesc:" + errorDesc, Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
+
 }
