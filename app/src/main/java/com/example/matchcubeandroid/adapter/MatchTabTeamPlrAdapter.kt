@@ -6,10 +6,11 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.example.matchcubeandroid.fragments.Matchtabplayer
 import com.example.matchcubeandroid.fragments.Matchtabteam
 
-class MatchTabTeamPlrAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm!!) {
+/*Match Tab 선수, 팀 탭 레이아웃 어댑터*/
+public class MatchTabTeamPlrAdapter(fm: FragmentManager?) : FragmentStatePagerAdapter(fm!!) {
 
     private var fragmentList: MutableList<Fragment> = arrayListOf()
-    private var titleList :MutableList<String> = arrayListOf()
+    private var titleList : MutableList<String> = arrayListOf()
 
     override fun getCount(): Int {
         return fragmentList.size

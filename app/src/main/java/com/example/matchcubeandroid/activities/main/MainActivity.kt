@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         bottom_navigation_view.setOnNavigationItemSelectedListener(this)
+
+        val fragMath = MatchFragment()
+        supportFragmentManager.beginTransaction().
+                replace(R.id.frame_layout, fragMath).commit()
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
