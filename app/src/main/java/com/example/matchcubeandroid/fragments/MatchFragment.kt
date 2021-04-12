@@ -55,6 +55,9 @@ class MatchFragment : Fragment() {
             }
         })
 
+
+
+
         // PATH variable -> {cityCode}
         // api interface : city/{cityCode}/si-gun-gu -> 시*도 별로 구*군 출력
         Client.retrofitService.locateDetail(cityCode).enqueue(object : Callback<LocateModel> {
