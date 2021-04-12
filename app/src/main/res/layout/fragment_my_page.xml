@@ -16,21 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="마이페이지"
+            android:layout_margin="5dp"
             android:textSize="25sp"></TextView>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right">
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/logoutbt"
-                android:layout_marginRight="6dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Logout" ></androidx.appcompat.widget.AppCompatButton>
-        </LinearLayout>
+            android:gravity="right"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,68 +37,75 @@
         android:layout_centerInParent="true"
         android:background="#808080"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="내 프로필"
-        android:textSize="20sp"
-        ></TextView>
 
+    <!-- 레이아웃 구분 선 (View를 이용하여 구현) -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/myProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="내 프로필"
+            android:textSize="20sp"></TextView>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditMyProfile"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_shape"
+            android:text="수정" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfile"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/sony_sample"
-            ></de.hdodenhof.circleimageview.CircleImageView>
+            android:layout_below="@id/myProfile"
+            android:layout_margin="5dp"
+            android:src="@drawable/sony_sample"></de.hdodenhof.circleimageview.CircleImageView>
+
         <TextView
             android:id="@+id/txtName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="손흥민"
-            android:layout_marginLeft="10dp"
+            android:layout_alignTop="@+id/imgProfile"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="32dp"
+            android:layout_toEndOf="@+id/imgProfile"
             android:layout_toRightOf="@id/imgProfile"
-            ></TextView>
+            android:text="손흥민"
+            android:textSize="20sp"></TextView>
+
         <TextView
             android:id="@+id/txtNickName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
+            android:layout_below="@+id/txtName"
+            android:layout_alignStart="@+id/txtName"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_toRightOf="@id/imgProfile"
             android:text="Sony"
-            android:layout_marginLeft="15dp"
-            android:layout_below="@id/txtName"
-            android:layout_toRightOf="@id/imgProfile"
-            ></TextView>
+            android:textSize="18sp"></TextView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnShowMyProfile"
+        <TextView
+            android:id="@+id/txtEmail"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:text="프로필 보기"
-            android:background="@drawable/button_shape"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtNickName"
+            android:layout_alignStart="@+id/txtNickName"
             android:layout_toRightOf="@id/imgProfile"
-            android:layout_below="@id/txtNickName"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"/>
+            android:text="email@gmail.com"
+            android:textSize="14sp"></TextView>
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditMyProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/btnShowMyProfile"
-            android:layout_below="@id/txtNickName"
-            android:background="@drawable/button_shape"
-            android:layout_marginLeft="25dp"
-            android:text="수정하기" />
-</RelativeLayout>
 
-    <!-- 레이아웃 구분 선 (View를 이용하여 구현) -->
+    </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="8dp"
@@ -125,16 +125,23 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTeamProfImgs"
-            android:layout_below="@id/txtMyTeams"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txtMyTeams"
+            />
 
-        <!-- 레이아웃 구분 선 (View를 이용하여 구현) -->
         <View
+            android:id="@+id/line1"
             android:layout_width="match_parent"
             android:layout_height="8dp"
-            android:layout_centerInParent="true"
-            android:background="#808080"/>
+            android:layout_below="@id/rvTeamProfImgs"
+            android:background="#808080" />
 
+        <ListView
+            android:id="@+id/options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line1"/>
     </RelativeLayout>
+
 </LinearLayout>
