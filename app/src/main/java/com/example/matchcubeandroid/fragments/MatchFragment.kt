@@ -40,8 +40,6 @@ class MatchFragment : Fragment() {
         var i:Int = 0 // 제어변수
 
 
-
-
 //        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)
 //
 //        matchLocateSpinner.setOnItemClickListener(AdapterView.OnItemSelectedListener() {
@@ -73,7 +71,7 @@ class MatchFragment : Fragment() {
                     for (i in i..(sizeArr - 1)) {
 //                        Log.d("sido", "${bodyData.data!![i].code}")
 //                        Log.d("sido", "${bodyData.data!![i].name}")
-                        matchLocateSido!![i] = bodyData.data!![i].name
+                        //matchLocateSido!![i] = bodyData.data!![i].name
                     }
 
 
@@ -104,10 +102,10 @@ class MatchFragment : Fragment() {
                     val sizeArr: Int = bodyData.size
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                     Log.d("locateDetail", "${response.body()?.toString()}")
-                    for (i in i..(sizeArr - 1)) {
+                    for (i in i..(sizeArr-1)) {
 //                        Log.d("sido", "${bodyData.data!![i].code}")
 //                        Log.d("sido", "${bodyData.data!![i].name}")
-                        matchLocateSido!![i] = response.body()?.data!![i].name
+//                        matchLocateSido!![i] = response.body()?.data!![i].name
                     }
 
                 } else {
