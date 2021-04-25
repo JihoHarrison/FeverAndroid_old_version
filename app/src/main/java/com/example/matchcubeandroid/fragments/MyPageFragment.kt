@@ -3,7 +3,6 @@ package com.example.matchcubeandroid.fragments
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -61,9 +60,6 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
 
         })
 
-
-
-
         val btn: Button = view.findViewById(R.id.btnEditMyProfile)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         val opsList: ListView = view.findViewById(R.id.options)
@@ -74,12 +70,9 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
                 ProfileModel(R.drawable.ic_android_drawer, "함부르크")
         )
 
-
-
         rvTeamProfImgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvTeamProfImgs.setHasFixedSize(true)
         rvTeamProfImgs.adapter = ProfileAdapter(profileList)
-
 
         val optionList = arrayListOf<OptionModel>( //옵션 메뉴
                 OptionModel("공지사항"),
@@ -92,15 +85,7 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         opsList.adapter = Adapter
 
 // 클릭이벤트 활성화 해야함(수정 필요)
-
-
-
-
-
         return view
-
-
-
     }
 
     override fun onClick(v: View?) {// 수정버튼 눌렀을때, 팝업창 뜨게 하기
@@ -122,14 +107,10 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         }
     }
 
-
-
     override fun onDestroy() {
         if(MySharedPreferences.getAutoChecked(requireContext()).equals("N")){
             MySharedPreferences.clearUser(requireContext())
         }
         super.onDestroy()
     }
-
-
 }

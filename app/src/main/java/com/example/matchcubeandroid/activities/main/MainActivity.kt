@@ -10,7 +10,6 @@ import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.fragments.*
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_main.*
 
 //1. (앱 - 카카오톡 서버)
@@ -27,15 +26,15 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-            if (error != null) {
-                //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, LoginActivity::class.java))
-            }
-            else if (tokenInfo != null) {
-                //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
-            }
-        }
+//        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+//            if (error != null) {
+//                //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+//                startActivity(Intent(this, LoginActivity::class.java))
+//            }
+//            else if (tokenInfo != null) {
+//                //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
+//            }
+//        }
         bottom_navigation_view.setOnNavigationItemSelectedListener(this)
 
         val fragMath = MatchFragment()
@@ -75,18 +74,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onDestroy() {
-        if(MySharedPreferences.getAutoChecked(this).equals("N")){
-            MySharedPreferences.clearUser(this)
-        }
         super.onDestroy()
     }
 
     override fun onBackPressed() {
-
         super.onBackPressed()
     }
-
-
-
 
 }

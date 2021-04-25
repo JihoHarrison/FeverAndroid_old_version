@@ -39,17 +39,11 @@ class MatchFragment : Fragment() {
         var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
 
-
 //        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)
 //
 //        matchLocateSpinner.setOnItemClickListener(AdapterView.OnItemSelectedListener() {
 //
 //        })
-
-
-
-
-
 
         // api interface : city -> 시 * 도만 출력
         Client.retrofitService.locate().enqueue(object : Callback<LocateModel> {
@@ -87,9 +81,6 @@ class MatchFragment : Fragment() {
             }
         })
 
-
-
-
         // PATH variable -> {cityCode}
         // api interface : city/{cityCode}/si-gun-gu -> 시*도 별로 구*군 출력
         Client.retrofitService.locateDetail(cityCode).enqueue(object : Callback<LocateModel> {
@@ -121,9 +112,6 @@ class MatchFragment : Fragment() {
             }
         })
 
-
-
-
         return view
     }
 
@@ -151,9 +139,6 @@ class MatchFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        if(MySharedPreferences.getAutoChecked(requireContext()).equals("N")){
-            MySharedPreferences.clearUser(requireContext())
-        }
         super.onDestroy()
     }
 
@@ -168,8 +153,5 @@ class MatchFragment : Fragment() {
         viewPagers!!.adapter = adapter
         tabLayouts!!.setupWithViewPager(viewPagers)
     }
-
-
-
 
 }

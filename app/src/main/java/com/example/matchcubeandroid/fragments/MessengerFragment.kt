@@ -16,9 +16,6 @@ MessengerFragment : Fragment()  {
     }
 
     override fun onDestroy() {
-        if(MySharedPreferences.getAutoChecked(requireContext()).equals("N")){
-            MySharedPreferences.clearUser(requireContext())
-        }
         super.onDestroy()
     }
 }

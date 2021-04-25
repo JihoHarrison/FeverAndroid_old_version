@@ -1,5 +1,5 @@
 package com.example.matchcubeandroid.model
 
-class OptionModel (
+data class OptionModel (
     val txtOptionList: String
 )
