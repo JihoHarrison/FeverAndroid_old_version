@@ -3,7 +3,6 @@ package com.example.matchcubeandroid.fragments
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,7 +24,6 @@ import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.HttpURLConnection
 
 
 class MyPageFragment : Fragment(), View.OnClickListener  {
@@ -58,7 +56,7 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
                     name.setText(data?.name)
                     nickname.setText(data?.nickName)
                     email.setText(data?.emailId)
-                    profileimage.setImageURI(Uri.parse(data?.profileImage))
+
 
 
 

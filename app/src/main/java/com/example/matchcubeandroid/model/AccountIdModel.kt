@@ -1,7 +1,5 @@
 package com.example.matchcubeandroid.model
 
-import android.net.Uri
-import retrofit2.http.Url
 
 data class AccountIdModel(
         val statusCode: Int,
