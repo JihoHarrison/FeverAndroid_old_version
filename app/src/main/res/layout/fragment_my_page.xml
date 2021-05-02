@@ -67,7 +67,7 @@
             android:layout_height="100dp"
             android:layout_below="@id/myProfile"
             android:layout_margin="5dp"
-            android:src="@drawable/sony_sample"></de.hdodenhof.circleimageview.CircleImageView>
+            ></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
             android:id="@+id/txtName"

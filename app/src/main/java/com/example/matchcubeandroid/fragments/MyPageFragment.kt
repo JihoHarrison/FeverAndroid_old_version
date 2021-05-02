@@ -3,6 +3,7 @@ package com.example.matchcubeandroid.fragments
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,9 +21,11 @@ import com.example.matchcubeandroid.model.OptionModel
 import com.example.matchcubeandroid.model.ProfileModel
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
+import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.HttpURLConnection
 
 
 class MyPageFragment : Fragment(), View.OnClickListener  {
@@ -37,16 +40,30 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
 
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
+        val name: TextView = view.findViewById(R.id.txtName)
+        val nickname: TextView = view.findViewById(R.id.txtNickName)
         val email: TextView = view.findViewById(R.id.txtEmail)
+        val profileimage: CircleImageView = view.findViewById(R.id.imgProfile)
 
-        Client.retrofitService.accountId().enqueue(object : Callback<AccountIdModel> {
+
+
+        Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
             override fun onResponse(call: Call<AccountIdModel>, response: Response<AccountIdModel>) {
 
                 if (response.body()?.statusCode == 100) { // 100 : successful
                     val data = response.body()?.data
                     data?.let { Result.success(data) }
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
+                    Log.d("Account", "${response.body()?.toString()}")
+                    name.setText(data?.name)
+                    nickname.setText(data?.nickName)
+                    email.setText(data?.emailId)
+                    profileimage.setImageURI(Uri.parse(data?.profileImage))
 
-                } else {
+
+
+                }
+                else {
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                     Log.d("d", "${response.body()?.toString()}")
                 }
@@ -59,6 +76,8 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
             }
 
         })
+
+
 
         val btn: Button = view.findViewById(R.id.btnEditMyProfile)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
@@ -83,6 +102,21 @@ class MyPageFragment : Fragment(), View.OnClickListener  {
         val Adapter = OptionAdapter(context, optionList)
 
         opsList.adapter = Adapter
+
+        // 클릭이벤트 활성화 해야함(수정 필요)
+        // 버튼 눌렀을때 해당 프레그먼트로 이동할수 있도록 변경해야함
+        opsList.setOnItemClickListener { parent:AdapterView<*>, view:View, position:Int, id:Long ->
+            if (position == 0) {
+                Toast.makeText(context, "공지사항",Toast.LENGTH_SHORT).show()
+            }
+            if (position == 1) {
+                Toast.makeText(context, "이용약관",Toast.LENGTH_SHORT).show()
+            }
+            if (position == 2) {
+                Toast.makeText(context, "앱설정",Toast.LENGTH_SHORT).show()
+            }
+        }
+
 
 // 클릭이벤트 활성화 해야함(수정 필요)
         return view

@@ -1,17 +1,18 @@
 package com.example.matchcubeandroid.model
 
+import android.net.Uri
+import retrofit2.http.Url
+
 data class AccountIdModel(
-    val statusCode: Int,
-    val responseMessage: String,
-    val data: List<AccountIdModelData>
+        val statusCode: Int,
+        val responseMessage: String,
+        val data: AccountIdModelData
 )
 
 data class AccountIdModelData(
-    var accountId: Int,
-    var nickName: String,
-    var name: String,
-    var emailId: String,
-    var teamId: Int,
-    var teamIamgeUrl: String,
-    var isTeamLeader: String
+        var accountId: Int,
+        var profileImage: String,
+        var nickName: String,
+        var name: String,
+        var emailId: String
 )

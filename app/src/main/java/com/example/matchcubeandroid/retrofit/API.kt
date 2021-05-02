@@ -30,13 +30,13 @@ interface API {
     @GET("city/{cityCode}/si-gun-gu")
     fun locateDetail(@Path("cityCode") cityCode: Int): Call<LocateModel>
 
-
-
+    // 개인정보 가져오는 api
     @Headers("accept: application/json",
             "content-type: application/json")
-    @GET("accountid")
-    fun accountId(): Call<AccountIdModel>
+    @GET("myPage/{accountId}")
+    fun accountId(@Path("accountId") accountId: Int): Call<AccountIdModel>
 
 
  // ID, PW 찾기
+
 }
