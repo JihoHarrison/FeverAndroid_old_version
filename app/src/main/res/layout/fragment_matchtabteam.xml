@@ -22,9 +22,17 @@
             android:layout_height="30dp"
             android:src="@drawable/ic_android_drawer" />
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/floatingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            >
+
+        </Button>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/matchTeamTabRecycler"
             android:layout_width="wrap_content"
@@ -32,7 +40,7 @@
 
         </androidx.recyclerview.widget.RecyclerView>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,14 +51,15 @@
             android:layout_height="wrap_content"
             android:text="다른 팀을 찾아보세요!"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/matchOtherTeamRecycler"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

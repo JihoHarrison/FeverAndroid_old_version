@@ -39,6 +39,7 @@ class MatchFragment : Fragment() {
         var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
 
+
 //        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)
 //
 //        matchLocateSpinner.setOnItemClickListener(AdapterView.OnItemSelectedListener() {
@@ -49,6 +50,7 @@ class MatchFragment : Fragment() {
         Client.retrofitService.locate().enqueue(object : Callback<LocateModel> {
             override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
                 if (response.body()?.statusCode == 100) { // 200 : successful
+
 
                     val data = response.body()?.data
                     val bodyData = response.body()!!
@@ -61,6 +63,7 @@ class MatchFragment : Fragment() {
                     Log.d("sido", "${a}")
                     var b = response.body()?.data!![0].name
                     Log.d("sido", "${sizeArr}")
+
 
                     for (i in i..(sizeArr - 1)) {
 //                        Log.d("sido", "${bodyData.data!![i].code}")
@@ -119,6 +122,7 @@ class MatchFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         setUpViewPager()
+
 
         // 각각의 탭이 선택 , 재선택 , 선택되지 않았을 시
         tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
