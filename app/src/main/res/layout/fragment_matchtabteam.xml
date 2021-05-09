@@ -25,14 +25,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             >
 
-        </Button>
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/matchTeamTabRecycler"
             android:layout_width="wrap_content"

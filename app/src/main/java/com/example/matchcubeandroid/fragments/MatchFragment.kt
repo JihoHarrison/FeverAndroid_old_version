@@ -23,14 +23,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-
 class MatchFragment : Fragment() {
-    lateinit var viewPagers: ViewPager
-    lateinit var tabLayouts: TabLayout
 
-    val matchLocateSido:ArrayList<String>? = null
-    val matchLocategungu:ArrayList<String>? = null
+    private lateinit var viewPagers: ViewPager
+    private lateinit var tabLayouts: TabLayout
 
+    private val matchLocateSido:ArrayList<String> = ArrayList()
+    private val matchLocategungu:ArrayList<String>? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
@@ -38,19 +37,19 @@ class MatchFragment : Fragment() {
         var context: Context = view.context
         var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
+        var locateArrayAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_item, matchLocateSido)
 
-
+        locateArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 //        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)
-//
+
 //        matchLocateSpinner.setOnItemClickListener(AdapterView.OnItemSelectedListener() {
-//
+
 //        })
 
         // api interface : city -> 시 * 도만 출력
         Client.retrofitService.locate().enqueue(object : Callback<LocateModel> {
             override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
                 if (response.body()?.statusCode == 100) { // 200 : successful
-
 
                     val data = response.body()?.data
                     val bodyData = response.body()!!
@@ -64,13 +63,15 @@ class MatchFragment : Fragment() {
                     var b = response.body()?.data!![0].name
                     Log.d("sido", "${sizeArr}")
 
-
                     for (i in i..(sizeArr - 1)) {
 //                        Log.d("sido", "${bodyData.data!![i].code}")
 //                        Log.d("sido", "${bodyData.data!![i].name}")
-                        //matchLocateSido!![i] = bodyData.data!![i].name
+                        matchLocateSido.add(bodyData.data!![i].name)
+                        //matchLocateSido!![i] = bodyData.data!![i].name 틀린 방법.
+                        Log.d("helloworld", matchLocateSido[i])
                     }
-
+                    // 시 도 스피너 어댑터 지정
+                    matchLocateSpinner.adapter = locateArrayAdapter
 
                 } else {
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
@@ -83,7 +84,7 @@ class MatchFragment : Fragment() {
                 }
             }
         })
-
+/************************************군, 구의 위치 정보 불러오는 부분**********************************************/
         // PATH variable -> {cityCode}
         // api interface : city/{cityCode}/si-gun-gu -> 시*도 별로 구*군 출력
         Client.retrofitService.locateDetail(cityCode).enqueue(object : Callback<LocateModel> {
@@ -124,7 +125,7 @@ class MatchFragment : Fragment() {
         setUpViewPager()
 
 
-        // 각각의 탭이 선택 , 재선택 , 선택되지 않았을 시
+        /**선수, 팀 탭이 선택 , 재선택 , 선택되지 않았을 시**/
         tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
 
