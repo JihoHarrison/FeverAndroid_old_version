@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="LocationSpinnerArray">
+        <!--서울, 강원, 경기, . . . 위치 정보 넣어 줄 예정-->
+
+
+    </string-array>
+
+
+</resources>
