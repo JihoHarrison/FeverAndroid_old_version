@@ -41,7 +41,7 @@ interface API {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("myPage/{accountId}/teams")
-    fun myTeams(@Path("accountId") accountId: Long): Call<MyTeamsModel>
+    fun myTeams(@Path("accountId") teamId: Long): Call<MyTeamsModel>
 
 
 
