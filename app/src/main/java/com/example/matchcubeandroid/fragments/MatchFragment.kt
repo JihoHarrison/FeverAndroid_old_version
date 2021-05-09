@@ -32,12 +32,17 @@ class MatchFragment : Fragment() {
     val matchLocategungu:ArrayList<String>? = null
 
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
 
         var context: Context = view.context
         var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
+
+
+
+
 
 
 //        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)

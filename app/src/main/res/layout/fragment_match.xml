@@ -18,14 +18,15 @@
             android:layout_height="30dp"
             android:layout_margin="10dp"
             android:src="@drawable/sony_sample"
-            ></de.hdodenhof.circleimageview.CircleImageView>
+        ></de.hdodenhof.circleimageview.CircleImageView>
 
         <TextView
+            android:id="@+id/categoryTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="축구"
             android:layout_gravity="center"
-            ></TextView>
+        ></TextView>
 
 
         <androidx.appcompat.widget.AppCompatSpinner
@@ -48,28 +49,28 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/matchTabLayout"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/matchTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/design_default_color_primary"
+            app:tabIndicatorColor="@color/black">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/matchTeamTab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/design_default_color_primary"
-                app:tabIndicatorColor="@color/black">
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/matchTeamTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="팀">
-                </com.google.android.material.tabs.TabItem>
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/matchPlayerTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="선수">
-                </com.google.android.material.tabs.TabItem>
-            </com.google.android.material.tabs.TabLayout>
+                android:text="팀">
+            </com.google.android.material.tabs.TabItem>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/matchPlayerTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="선수">
+            </com.google.android.material.tabs.TabItem>
+        </com.google.android.material.tabs.TabLayout>
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/matchViewPager"
             android:layout_width="match_parent"
