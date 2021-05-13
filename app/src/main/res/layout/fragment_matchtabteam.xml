@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="내 소속팀" />
+        <!--알림 종 모양 버튼? 으로 넣을 예정.-->
         <ImageButton
             android:layout_weight="1"
             android:layout_gravity="right"
@@ -23,6 +24,7 @@
             android:src="@drawable/ic_android_drawer" />
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/myTeamsLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -34,7 +36,7 @@
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchTeamTabRecycler"
+            android:id="@+id/teamTabRcyclr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -58,7 +60,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/matchOtherTeamRecycler"
+            android:id="@+id/OthTeamsRcyclr"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
