@@ -51,16 +51,6 @@
             android:text="내 프로필"
             android:textSize="20sp"></TextView>
 
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditMyProfile"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_shape"
-            android:text="수정" />
-
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imgProfile"
             android:layout_width="100dp"
@@ -68,6 +58,40 @@
             android:layout_below="@id/myProfile"
             android:layout_margin="5dp"
             ></de.hdodenhof.circleimageview.CircleImageView>
+
+
+        <ViewSwitcher
+            android:id="@+id/my_switcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditMyProfile"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_shape"
+                android:text="수정" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnEditMyProfileComplete"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/button_shape"
+                android:text="수정완료" />
+
+
+        </ViewSwitcher>
+
+
 
         <TextView
             android:id="@+id/txtName"
@@ -79,7 +103,9 @@
             android:layout_toEndOf="@+id/imgProfile"
             android:layout_toRightOf="@id/imgProfile"
             android:text="손흥민"
-            android:textSize="20sp"></TextView>
+            android:textSize="20sp"
+            ></TextView>
+
 
         <TextView
             android:id="@+id/txtNickName"
@@ -91,7 +117,12 @@
             android:layout_marginBottom="5dp"
             android:layout_toRightOf="@id/imgProfile"
             android:text="Sony"
-            android:textSize="18sp"></TextView>
+            android:textSize="18sp"
+            ></TextView>
+
+
+
+
 
         <TextView
             android:id="@+id/txtEmail"
@@ -101,7 +132,49 @@
             android:layout_alignStart="@+id/txtNickName"
             android:layout_toRightOf="@id/imgProfile"
             android:text="email@gmail.com"
-            android:textSize="14sp"></TextView>
+            android:textSize="14sp"
+            ></TextView>
+
+
+
+        <EditText
+            android:id="@+id/editName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myProfile"
+            android:layout_toEndOf="@+id/imgProfile"
+            android:layout_marginStart="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Name"
+            android:textSize="12sp"
+            android:visibility="gone"
+            />
+
+        <EditText
+            android:id="@+id/editNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editName"
+            android:layout_alignStart="@+id/editName"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="NickName"
+            android:textSize="12sp"
+            android:visibility="gone"
+            />
+
+        <EditText
+            android:id="@+id/editEmailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editNickName"
+            android:layout_alignStart="@+id/editName"
+            android:ems="10"
+            android:hint="email@Email.com"
+            android:inputType="textEmailAddress"
+            android:textSize="12sp"
+            android:visibility="gone" />
 
 
     </RelativeLayout>
@@ -140,8 +213,8 @@
         <ListView
             android:id="@+id/options"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/line1"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/line1" />
     </RelativeLayout>
 
 </LinearLayout>

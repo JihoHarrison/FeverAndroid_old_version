@@ -38,7 +38,7 @@ interface API {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("myPage/{accountId}/teams")
-    fun myTeams(@Path("accountId") accountId: Long): Call<MyTeamsModel>
+    fun myTeams(@Path("accountId") teamId: Long): Call<MyTeamsModel>
 
     // 선수 세부정보 불러오는 api
     @Headers("accept: application/json",
