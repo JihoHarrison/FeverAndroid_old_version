@@ -151,24 +151,23 @@ class MatchFragment : Fragment() {
                         2 -> // 경상남도
                             // PATH variable -> {cityCode}
                             // api interface : city/{cityCode}/si-gun-gu -> 시*도 별로 구*군 출력
-                            Client.retrofitService.locateDetail(38).enqueue(object : Callback<LocateModel> {
-                                override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
-                                    if (response.body()?.statusCode == 100) { // 200 : successful
+                            Client.retrofitService.locateDetail(38).enqueue(object : Callback<LocateModel>{
+                                override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>){
+                                    if (response.body()?.statusCode == 100){ // 200 : successful
                                         val data = response.body()?.data
                                         val bodyData = response.body()?.data!!
                                         data?.let { Result.success(data) }
-
                                         val sizeArr: Int = bodyData.size
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                         for (i in i..(sizeArr-1)) {
                                             matchLocategungu.add(response.body()!!.data[i].toString()) // 군 구 데이터 배열 저장 완료
                                         }
-                                    } else {
+                                    } else{
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                     }
                                     matchGunguSpinner?.adapter = locateGunguAdapter
                                 }
-                                override fun onFailure(call: Call<LocateModel>, t: Throwable) {
+                                override fun onFailure(call: Call<LocateModel>, t: Throwable){
                                     t?.message?.let {
                                         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                                     }
@@ -241,7 +240,7 @@ class MatchFragment : Fragment() {
                                         for (i in i..(sizeArr-1)) {
                                             matchLocategungu.add(response.body()!!.data[i].toString()) // 군 구 데이터 배열 저장 완료
                                         }
-                                    } else {
+                                    } else{
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                     }
                                     matchGunguSpinner?.adapter = locateGunguAdapter
