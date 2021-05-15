@@ -11,30 +11,66 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/match_fragment_prof_img"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="10dp"
-            android:src="@drawable/sony_sample"
-            ></de.hdodenhof.circleimageview.CircleImageView>
-
-        <TextView
-            android:id="@+id/categoryTxt"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="축구"
-            android:layout_gravity="center"
-            ></TextView>
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/FeverTitleTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FEVER!"
+                android:layout_gravity="center"
+                android:textSize="30dp">
 
+            </TextView>
 
-        <androidx.appcompat.widget.AppCompatSpinner
-            android:id="@+id/matchLocateSpinner"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/matchLocateSpinner"
+                    android:textAlignment="center"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent">
+                </androidx.appcompat.widget.AppCompatSpinner>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/matchGunguSpinner"
+                    android:textAlignment="center"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent">
+                </androidx.appcompat.widget.AppCompatSpinner>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_gravity="right"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/categoryTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="축구"
+                android:layout_gravity="center">
 
-        </androidx.appcompat.widget.AppCompatSpinner>
+            </TextView>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/match_fragment_category_img"
+                android:layout_gravity="right"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                android:src="@drawable/sony_sample"
+            ></de.hdodenhof.circleimageview.CircleImageView>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
@@ -49,28 +85,30 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/matchTabLayout"
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/matchTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            android:layout_gravity="center"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/design_default_color_primary"
+            app:tabIndicatorColor="@color/black"
+            android:background="@drawable/tablayout_round">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/matchTeamTab"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabGravity="fill"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/design_default_color_primary"
-                app:tabIndicatorColor="@color/black">
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/matchTeamTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="팀">
-                </com.google.android.material.tabs.TabItem>
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/matchPlayerTab"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="선수">
-                </com.google.android.material.tabs.TabItem>
-            </com.google.android.material.tabs.TabLayout>
+                android:text="팀">
+            </com.google.android.material.tabs.TabItem>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/matchPlayerTab"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="선수">
+            </com.google.android.material.tabs.TabItem>
+        </com.google.android.material.tabs.TabLayout>
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/matchViewPager"
             android:layout_width="match_parent"

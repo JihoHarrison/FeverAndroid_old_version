@@ -2,6 +2,7 @@
 <resources>
     <string-array name="LocationSpinnerArray">
         <!--서울, 강원, 경기, . . . 위치 정보 넣어 줄 예정-->
+        <!--필요 없을 듯..?-->
 
 
     </string-array>

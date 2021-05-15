@@ -1,9 +1,6 @@
 package com.example.matchcubeandroid.retrofit
 
-import com.example.matchcubeandroid.model.AccountIdModel
-import com.example.matchcubeandroid.model.LocateModel
-import com.example.matchcubeandroid.model.LogInModel
-import com.example.matchcubeandroid.model.MyTeamsModel
+import com.example.matchcubeandroid.model.*
 import retrofit2.Call
 import retrofit2.http.*
 import kotlin.collections.HashMap
@@ -41,11 +38,13 @@ interface API {
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("myPage/{accountId}/teams")
-    fun myTeams(@Path("accountId") accountId: Long): Call<MyTeamsModel>
+    fun myTeams(@Path("accountId") teamId: Long): Call<MyTeamsModel>
 
-
-
-
+    // 선수 세부정보 불러오는 api
+    @Headers("accept: application/json",
+        "content-type: application/json")
+    @GET("players/{userId}/detail")
+    fun playersDetail(@Path("userId") userId: Long): Call<PlayerDetailModel>
  // ID, PW 찾기
 
 }
