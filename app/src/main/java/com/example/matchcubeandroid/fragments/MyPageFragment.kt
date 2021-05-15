@@ -1,6 +1,7 @@
 package com.example.matchcubeandroid.fragments
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.OptionAdapter
 import com.example.matchcubeandroid.adapter.ProfileAdapter
+import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
@@ -20,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 
 
 class MyPageFragment : Fragment() {
@@ -27,7 +30,6 @@ class MyPageFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
     }
-
 
     // 프로필 정보 불러오기 (수정필요)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -55,9 +57,13 @@ class MyPageFragment : Fragment() {
                     nickname.setText(data?.nickName)
                     email.setText(data?.emailId)
 
-
-
-
+                    // 이미지 처리 객체
+                    var image_task: URLtoBitmapTask = URLtoBitmapTask()
+                    image_task = URLtoBitmapTask().apply {
+                        url = URL(data?.profileImage)
+                    }
+                    var bitmap: Bitmap = image_task.execute().get()
+                    profileimage.setImageBitmap(bitmap)
                 }
                 else {
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
