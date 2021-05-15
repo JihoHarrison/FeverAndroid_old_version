@@ -9,6 +9,14 @@ class LoginActivity : AppCompatActivity() {
 
     private val TAG = "retrofit"
 
+    // Google
+
+
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
