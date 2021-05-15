@@ -17,7 +17,6 @@ import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -133,11 +132,7 @@ class MyPageFragment : Fragment() {
             var newName: String = editname.text.toString()
             name.setText(newName)
 
-            var newNickname: String = editnickname.text.toString()
-            nickname.setText(newNickname)
 
-            var newEmail: String = editemail.text.toString()
-            email.setText(newEmail)
 
             switcher.showPrevious()
         }
