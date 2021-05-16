@@ -1,8 +1,11 @@
 package com.example.matchcubeandroid.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.OptionAdapter
 import com.example.matchcubeandroid.adapter.ProfileAdapter
+import com.example.matchcubeandroid.databinding.FragmentMyPageBinding
 import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
@@ -24,11 +28,13 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.URL
 
+private var fragmentMainBinding: FragmentMyPageBinding? = null
+
+
 
 class MyPageFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     // 프로필 정보 불러오기 (수정필요)
@@ -37,11 +43,6 @@ class MyPageFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
         val name: TextView = view.findViewById(R.id.txtName)
-        val nickname: TextView = view.findViewById(R.id.txtNickName)
-        val email: TextView = view.findViewById(R.id.txtEmail)
-        val editname: EditText = view.findViewById(R.id.editName)
-        val editnickname: EditText = view.findViewById(R.id.editNickName)
-        val editemail: EditText = view.findViewById(R.id.editEmailAddress)
         val profileimage: CircleImageView = view.findViewById(R.id.imgProfile)
 
 
@@ -54,8 +55,6 @@ class MyPageFragment : Fragment() {
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                     Log.d("Account", "${response.body()?.toString()}")
                     name.setText(data?.name)
-                    nickname.setText(data?.nickName)
-                    email.setText(data?.emailId)
 
                     // 이미지 처리 객체
                     var image_task: URLtoBitmapTask = URLtoBitmapTask()
@@ -107,41 +106,16 @@ class MyPageFragment : Fragment() {
 
 
 
-        val switcher = view.findViewById(R.id.my_switcher) as ViewSwitcher
 
-        val btn: Button = view.findViewById(R.id.btnEditMyProfile)
-        val btn2: Button = view.findViewById(R.id.btnEditMyProfileComplete)
+        val btn: TextView = view.findViewById(R.id.btnEditMyProfile)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         val opsList: ListView = view.findViewById(R.id.options)
         btn.setOnClickListener {
-            name.visibility = View.INVISIBLE
-            editname.visibility = View.VISIBLE
-            nickname.visibility = View.INVISIBLE
-            editnickname.visibility = View.VISIBLE
-            email.visibility = View.INVISIBLE
-            editemail.visibility = View.VISIBLE
 
-            switcher.showNext() //or switcher.showPrevious();
+            }
 
 
 
-
-        }
-
-        btn2.setOnClickListener{
-            name.visibility = View.VISIBLE
-            editname.visibility = View.INVISIBLE
-            nickname.visibility = View.VISIBLE
-            editnickname.visibility = View.INVISIBLE
-            email.visibility = View.VISIBLE
-            editemail.visibility = View.INVISIBLE
-            var newName: String = editname.text.toString()
-            name.setText(newName)
-
-
-
-            switcher.showPrevious()
-        }
 
 
         val profileList = arrayListOf( // DB에 저장된 값으로 수정 가능 할 것으로 보임!
@@ -157,6 +131,7 @@ class MyPageFragment : Fragment() {
             OptionModel("공지사항"),
             OptionModel("이용약관"),
             OptionModel("앱 설정"),
+
         )
 
         val Adapter = OptionAdapter(context, optionList)
@@ -176,12 +151,6 @@ class MyPageFragment : Fragment() {
                 Toast.makeText(context, "앱설정",Toast.LENGTH_SHORT).show()
             }
         }
-
-
-
-
-
-
 
 // 클릭이벤트 활성화 해야함(수정 필요)
         return view
