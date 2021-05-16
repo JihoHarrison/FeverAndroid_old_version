@@ -76,7 +76,6 @@ class MyPageFragment : Fragment() {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 }
             }
-
         })
 
         Client.retrofitService.myTeams(1).enqueue(object : Callback<MyTeamsModel> {
@@ -100,12 +99,7 @@ class MyPageFragment : Fragment() {
                     Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 }
             }
-
         })
-
-
-
-
 
         val switcher = view.findViewById(R.id.my_switcher) as ViewSwitcher
 
@@ -122,10 +116,6 @@ class MyPageFragment : Fragment() {
             editemail.visibility = View.VISIBLE
 
             switcher.showNext() //or switcher.showPrevious();
-
-
-
-
         }
 
         btn2.setOnClickListener{
@@ -137,8 +127,6 @@ class MyPageFragment : Fragment() {
             editemail.visibility = View.INVISIBLE
             var newName: String = editname.text.toString()
             name.setText(newName)
-
-
 
             switcher.showPrevious()
         }
@@ -177,17 +165,9 @@ class MyPageFragment : Fragment() {
             }
         }
 
-
-
-
-
-
-
 // 클릭이벤트 활성화 해야함(수정 필요)
         return view
     }
-
-
 
     override fun onDestroy() {
         if(MySharedPreferences.getAutoChecked(requireContext()).equals("N")){
@@ -195,8 +175,4 @@ class MyPageFragment : Fragment() {
         }
         super.onDestroy()
     }
-
-
-
-
 }

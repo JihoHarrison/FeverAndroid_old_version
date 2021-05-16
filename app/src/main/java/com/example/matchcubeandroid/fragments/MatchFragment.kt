@@ -2,6 +2,7 @@ package com.example.matchcubeandroid.fragments
 
 import android.R.string
 import android.content.Context
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.MatchTabTeamPlrAdapter
+import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.LocateModel
 import com.example.matchcubeandroid.model.PlayerDetail
 import com.example.matchcubeandroid.model.PlayerDetailModel
@@ -27,6 +29,7 @@ import okhttp3.internal.notifyAll
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URL
 
 class MatchFragment : Fragment() {
 
@@ -34,7 +37,7 @@ class MatchFragment : Fragment() {
     private lateinit var tabLayouts: TabLayout
 
     private val matchLocateSido:ArrayList<String> = ArrayList()
-    private val matchLocatecode:ArrayList<Int> = ArrayList()
+    private val matchLocatecode:ArrayList<Int> = ArrayList() // 시 도의 코드값을 저장 해 놓을 ArrayList
     private val matchLocategungu:ArrayList<String> = ArrayList()
     private lateinit var playerDetailName: String
 
@@ -73,7 +76,7 @@ class MatchFragment : Fragment() {
 
                     // 시 도 스피너 어댑터 지정
                     matchLocateSpinner?.adapter = locateArrayAdapter
-                    matchLocateSpinner.setSelection(3)
+                    matchLocateSpinner.setSelection(3) // 스피너 default 값
                     matchLocateSpinner.onItemSelectedListener = this
 
                 } else {
@@ -93,19 +96,16 @@ class MatchFragment : Fragment() {
                                         val data = response.body()?.data
                                         val bodyData = response.body()?.data!!
                                         data?.let { Result.success(data) }
-
-                                        matchLocategungu.clear()
-
+                                        matchLocategungu.clear() // 군,구 스피너 ArrayList 갱신
                                         val sizeArr: Int = bodyData.size
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                         for (i in i..(sizeArr-1)) {
-                                            matchLocategungu.add(response.body()!!.data[i].toString()) // 군 구 데이터 배열 저장 완료
+                                            matchLocategungu.add(response.body()!!.data[i].name) // 군 구 데이터 배열 저장
                                         }
                                     } else {
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                     }
-
-                                    matchGunguSpinner?.adapter = locateGunguAdapter
+                                    matchGunguSpinner?.adapter = locateGunguAdapter // 어댑터 지정
                                 }
                                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
                                     t?.message?.let {
@@ -123,9 +123,13 @@ class MatchFragment : Fragment() {
         Client.retrofitService.playersDetail(1).enqueue(object : Callback<PlayerDetailModel>{
             override fun onResponse(call: Call<PlayerDetailModel>, response: Response<PlayerDetailModel>) {
 
-                var category: String = response.body()!!.data?.categoryName
-                Log.d("detailLog", category)
-                categoryTxt.setText(category)
+                // 이미지 처리 객체
+                var image_task: URLtoBitmapTask = URLtoBitmapTask()
+                image_task = URLtoBitmapTask().apply {
+                    url = URL(response.body()!!.data?.image)
+                }
+                var bitmap: Bitmap = image_task.execute().get()
+                match_fragment_category_img.setImageBitmap(bitmap)
             }
 
             override fun onFailure(call: Call<PlayerDetailModel>, t: Throwable) {
