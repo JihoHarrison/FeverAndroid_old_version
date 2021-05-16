@@ -14,7 +14,6 @@ class URLtoBitmapTask() : AsyncTask<Void, Void, Bitmap>() {
     }
     override fun onPreExecute() {
         super.onPreExecute()
-
     }
     override fun onPostExecute(result: Bitmap) {
         super.onPostExecute(result)

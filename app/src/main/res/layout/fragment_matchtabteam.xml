@@ -35,8 +35,9 @@
         >
 
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <!--내 소속팀 리사이클러뷰-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/teamTabRcyclr"
+            android:id="@+id/myTeamsRc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
@@ -51,17 +52,62 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="다른 팀을 찾아보세요!"/>
+            android:text="우리 팀과 경기할 팀을 찾아보세요!"/>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
+        <!--우리팀과 경기 할 팀 리사이클러뷰-->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/OthTeamsRcyclr"
+            android:id="@+id/teamsCompeteRc"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="정식으로 가입할 팀을 찾아보세요!"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <!--정식으로 가입 할 팀 리사이클러뷰-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/teamsToRegistRc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="용병으로 뛸 팀을 찾아보세요!"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--용병으로 뛸 팀 리사이클러뷰-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/teamsAsSoloRc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>
