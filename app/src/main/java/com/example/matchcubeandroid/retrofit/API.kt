@@ -53,4 +53,6 @@ interface API {
     fun playersDetail(@Path("userId") userId: Long): Call<PlayerDetailModel>
     // ID, PW 찾기
 
+
+
 }
