@@ -40,11 +40,17 @@ interface API {
     @GET("myPage/{accountId}/teams")
     fun myTeams(@Path("accountId") teamId: Long): Call<MyTeamsModel>
 
+    // 팀의 세부 정보 가져오는 api
+    @Headers("accept: application/json",
+        "content-type: application/json")
+    @GET("team/{teamId}")
+    fun myTeamsDetail(@Path("teamId") teamId: Int): Call<MatchtabTeamsModel>
+
     // 선수 세부정보 불러오는 api
     @Headers("accept: application/json",
         "content-type: application/json")
     @GET("players/{userId}/detail")
     fun playersDetail(@Path("userId") userId: Long): Call<PlayerDetailModel>
- // ID, PW 찾기
+    // ID, PW 찾기
 
 }
