@@ -20,7 +20,7 @@ class MatchtabTeamsAdapter (val teamsLists: ArrayList<MatchtabTeamsModel>) : Rec
     }
 
     override fun onBindViewHolder(holder: MatchtabTeamsAdapter.TeamViewHolder, position: Int) { //  실제로 호출 시 onBindViewHolder가 지속적으로 호출됨
-        holder.imgTeams.setImageResource(teamsLists.get(position).imgTeams)
+        holder.imgTeams.setImageResource(R.drawable.matchtab_teams_round)
         holder.txtTeamNameLists.text = teamsLists.get(position).txtTeamNameList
         holder.txtOneLineIntro.text = teamsLists.get(position).txtOneLineIntro
     }

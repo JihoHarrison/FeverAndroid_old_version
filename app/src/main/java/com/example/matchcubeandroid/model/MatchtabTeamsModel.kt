@@ -1,7 +1,9 @@
 package com.example.matchcubeandroid.model
 
+import android.widget.ImageView
+
 data class MatchtabTeamsModel(
-    val imgTeams: Int,
-    val txtTeamNameList: String,
-    val txtOneLineIntro: String
+    var imgTeams: ImageView,
+    var txtTeamNameList: String,
+    var txtOneLineIntro: String
 )
