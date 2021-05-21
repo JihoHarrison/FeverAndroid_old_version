@@ -3,7 +3,6 @@ package com.example.matchcubeandroid.fragments
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,78 +12,91 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.MatchtabTeamsAdapter
-import com.example.matchcubeandroid.adapter.ProfileAdapter
 import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.MatchtabTeamsModel
 import com.example.matchcubeandroid.model.MyTeamsModel
 import com.example.matchcubeandroid.retrofit.Client
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_matchtabteam.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import com.example.matchcubeandroid.model.ProfileModel
 import com.example.matchcubeandroid.model.TeamsDetailModel
-import kotlinx.android.synthetic.main.fragment_match.*
 import kotlinx.android.synthetic.main.match_team_list_item.*
-import java.net.URL
 
 class Matchtabteam : Fragment() {
 
     var myTeamName:ArrayList<String> = ArrayList()
+    lateinit var matchtabTeamsAdapter: MatchtabTeamsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_matchtabteam, container, false)
+
         var layoutInflater: LayoutInflater
         var myTeamsLayoutContainer: ViewGroup = view.findViewById(R.id.myTeamsLayout)
         var context: Context = view.context
-        val accountId: Long = 1;
-        var myTeamId2: Int = 1;
-        val teamId: Long = 1;
+        val accountId: Long = 1
+        var myTeamId2: Int = 1
+        val teamId: Long = 1
         var  i: Int = 0
         var teamsLists = ArrayList<MatchtabTeamsModel>()
         var teamsName = ArrayList<String>()
+        var image_task: URLtoBitmapTask
+        var bitmap: Bitmap
 
-        Client.retrofitService.myTeamsDetail(11).enqueue(object: Callback<TeamsDetailModel>{
+        Client.retrofitService.myTeamsDetail(1).enqueue(object: Callback<TeamsDetailModel>{
             override fun onResponse(call: Call<TeamsDetailModel>, response: Response<TeamsDetailModel>) {
+
                 var dataSize: Int = response.body()!!.data?.size!!
-                //var dataSize = 2;
+
+                //var dataSize = 4;
                 if(dataSize == 0){ // 소속된 팀이 없을 경우
-                    layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-                    layoutInflater.inflate(R.layout.default_my_teams_rc, myTeamsLayoutContainer, true)
+                    //layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                    //layoutInflater.inflate(R.layout.default_my_teams_rc, myTeamsLayoutContainer, true)
 
                 } else if(dataSize != 0){   /** 소속팀이 있을 경우 **/
+                    matchtabTeamsAdapter = MatchtabTeamsAdapter(context)
+
+                    myTeamsRc.adapter = matchtabTeamsAdapter
+                    teamsCompeteRc.adapter = matchtabTeamsAdapter
+                    teamsToRegistRc.adapter = matchtabTeamsAdapter
+                    teamsAsSoloRc.adapter = matchtabTeamsAdapter
+
                     for(i in i until dataSize) {
-                        var image_task: URLtoBitmapTask = URLtoBitmapTask()
-                        image_task = URLtoBitmapTask().apply {
-                            url = URL(response.body()!!.data?.get(i).teamImageURL)
-                        }
-                        var bitmap: Bitmap = image_task.execute().get()
-                        imgTeams.setImageBitmap(bitmap)
+//                        image_task = URLtoBitmapTask().apply {
+//                            url = URL(response.body()!!.data?.get(i).teamImageURL)
+//                        }
+//                        bitmap = image_task.execute().get()
+//                        Glide.with(context).load(bitmap).into(imgTeams)
+
+
+
+                        //Toast.makeText(context, response.body()!!.data?.get(i).teamName, Toast.LENGTH_SHORT).show()
                         teamsLists.apply {
+
                             /** 여기 희한하게 teamName이 이미 문자열인데도 toString 함수가 필요함. **/
                             /** 뭔가 add함수 안에 호출될때 다른 형식으로 변환되는걸 다시 문자열로 바꿔주는 형식인듯... **/
-                            add(MatchtabTeamsModel(imgTeams,
-                                response.body()!!.data?.get(i)?.teamName.toString(),
-                                "팀 소개"
+                            add(MatchtabTeamsModel(response.body()!!.data?.get(i).teamImageURL,
+                                response.body()!!.data?.get(i).teamName,
+                                response.body()!!.data?.get(i).teamIntro
                             ))
+                            matchtabTeamsAdapter.teamsLists = teamsLists
+                            matchtabTeamsAdapter.notifyDataSetChanged()
+
                         }
                     }
 
                 }
-                myTeamsRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                teamsCompeteRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                teamsToRegistRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                teamsAsSoloRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                myTeamsRc.setHasFixedSize(true)
-                teamsCompeteRc.setHasFixedSize(true)
-                teamsToRegistRc.setHasFixedSize(true)
-                teamsAsSoloRc.setHasFixedSize(true)
-                myTeamsRc.adapter = MatchtabTeamsAdapter(teamsLists)
-                teamsToRegistRc.adapter = MatchtabTeamsAdapter(teamsLists)
-                teamsCompeteRc.adapter = MatchtabTeamsAdapter(teamsLists)
-                teamsAsSoloRc.adapter = MatchtabTeamsAdapter(teamsLists)
+//                myTeamsRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//                teamsCompeteRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//                teamsToRegistRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//                teamsAsSoloRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//
+//                myTeamsRc.adapter = MatchtabTeamsAdapter(teamsLists)
+//                teamsToRegistRc.adapter = MatchtabTeamsAdapter(teamsLists)
+//                teamsCompeteRc.adapter = MatchtabTeamsAdapter(teamsLists)
+//                teamsAsSoloRc.adapter = MatchtabTeamsAdapter(teamsLists)
+
             }
 
             override fun onFailure(call: Call<TeamsDetailModel>, t: Throwable) {

@@ -3,6 +3,8 @@ package com.example.matchcubeandroid.image
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
+import android.view.View
+import android.widget.ImageView
 import java.net.URL
 
 class URLtoBitmapTask() : AsyncTask<Void, Void, Bitmap>() {
@@ -17,5 +19,7 @@ class URLtoBitmapTask() : AsyncTask<Void, Void, Bitmap>() {
     }
     override fun onPostExecute(result: Bitmap) {
         super.onPostExecute(result)
+
+
     }
 }
