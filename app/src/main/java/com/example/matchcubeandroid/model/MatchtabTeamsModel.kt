@@ -5,7 +5,7 @@ import android.media.Image
 import android.widget.ImageView
 
 data class MatchtabTeamsModel(
-    var imgTeams: String,
+    var imgTeams: Int,
     var txtTeamNameList: String,
     var txtOneLineIntro: String
 )

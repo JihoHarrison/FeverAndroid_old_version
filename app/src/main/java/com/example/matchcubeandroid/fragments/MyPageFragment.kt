@@ -96,11 +96,6 @@ class MyPageFragment : Fragment() {
 
         })
 
-
-
-
-
-
         val btn: TextView = view.findViewById(R.id.btnEditMyProfile)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         val opsList: ListView = view.findViewById(R.id.options)

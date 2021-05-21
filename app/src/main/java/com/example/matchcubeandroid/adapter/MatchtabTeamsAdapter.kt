@@ -15,9 +15,7 @@ import com.example.matchcubeandroid.model.ProfileModel
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.match_team_list_item.view.*
 
-class MatchtabTeamsAdapter (private val context: Context) : RecyclerView.Adapter<MatchtabTeamsAdapter.TeamViewHolder>(){
-
-    var teamsLists = ArrayList<MatchtabTeamsModel>()
+class MatchtabTeamsAdapter(val teamsLists: ArrayList<MatchtabTeamsModel>) : RecyclerView.Adapter<MatchtabTeamsAdapter.TeamViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MatchtabTeamsAdapter.TeamViewHolder { // item xml 뷰들을 끌어와서 adapter에 붙여준다
         val view = LayoutInflater.from(parent.context).inflate(R.layout.match_team_list_item, parent, false)
@@ -25,7 +23,9 @@ class MatchtabTeamsAdapter (private val context: Context) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: MatchtabTeamsAdapter.TeamViewHolder, position: Int) { //  실제로 호출 시 onBindViewHolder가 지속적으로 호출됨
-        holder.bind(teamsLists[position])
+        holder.txtOneLineIntro.text = teamsLists.get(position).txtOneLineIntro
+        holder.txtTeamNameLists.text = teamsLists.get(position).txtTeamNameList
+        holder.imgTeams.setImageResource(R.drawable.baseline_people_black_24)
     }
 
     override fun getItemCount(): Int {
@@ -38,11 +38,6 @@ class MatchtabTeamsAdapter (private val context: Context) : RecyclerView.Adapter
         val txtTeamNameLists = itemView.findViewById<TextView>(R.id.txtTeamNameLists)
         val txtOneLineIntro = itemView.findViewById<TextView>(R.id.txtOneLineIntro)
 
-        fun bind(item: MatchtabTeamsModel){
-            txtTeamNameLists.text = item.txtTeamNameList
-            txtOneLineIntro.text = item.txtOneLineIntro
-            Glide.with(itemView).load(item.imgTeams).into(imgTeams)
-        }
 
     }
 }
