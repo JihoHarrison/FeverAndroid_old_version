@@ -25,7 +25,6 @@
             </intent-filter>
         </activity>
         <!--Splash Activity-->
-        <activity android:name=".activities.register.RegisterActivity"></activity>
         <activity android:name=".activities.login.LoginActivity" />
         <activity android:name=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustPan">
