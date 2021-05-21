@@ -22,6 +22,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.matchcubeandroid.model.ProfileModel
+import okhttp3.internal.notifyAll
 
 class Matchtabteam : Fragment() {
 
@@ -52,7 +53,8 @@ class Matchtabteam : Fragment() {
                             teamsLists.apply {
                                 /** 여기 희한하게 teamName이 이미 문자열인데도 toString 함수가 필요함. **/
                                 /** 뭔가 add함수 안에 호출될때 다른 형식으로 변환되는걸 다시 문자열로 바꿔주는 형식인듯... **/
-                                add(MatchtabTeamsModel(R.drawable.matchtab_teams_round,
+                                add(MatchtabTeamsModel(
+                                    response.body()!!.data?.get(i)?.teamImageUrl.toString(),
                                     response.body()!!.data?.get(i)?.teamName.toString(),
                                     "안녕하세요"
                                 ))
