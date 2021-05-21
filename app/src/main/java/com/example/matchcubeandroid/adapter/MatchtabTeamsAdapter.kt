@@ -28,8 +28,8 @@ class MatchtabTeamsAdapter (val context: Context, val teamsLists: ArrayList<Matc
     override fun onBindViewHolder(holder: MatchtabTeamsAdapter.TeamViewHolder, position: Int) { //  실제로 호출 시 onBindViewHolder가 지속적으로 호출됨
 //        holder.imgTeams.setImageResource(teamsLists.get(position).imgTeams)
         Log.d("KAKA", "jt : " + teamsLists.get(position).imgTeams)
-//        Glide.with(context).load(teamsLists.get(position).imgTeams).into(holder.imgTeams)
-        Glide.with(context).load("https://match-cube.s3.ap-northeast-2.amazonaws.com/account/8166635a-9fde-432c-9650-60ff40910de6.png").into(holder.imgTeams)
+        Glide.with(context).load(teamsLists.get(position).imgTeams).into(holder.imgTeams)
+//        Glide.with(context).load("https://match-cube.s3.ap-northeast-2.amazonaws.com/account/8166635a-9fde-432c-9650-60ff40910de6.png").into(holder.imgTeams)
 
         holder.txtTeamNameLists.text = teamsLists.get(position).txtTeamNameList
         holder.txtOneLineIntro.text = teamsLists.get(position).txtOneLineIntro
