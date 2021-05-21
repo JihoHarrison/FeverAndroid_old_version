@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="google_client_id">116663771028-1bba6qqu1ef7c9f0d6o8udcnp2uonm6b.apps.googleusercontent.com</string>
+<!--    <string name="google_client_id">116663771028-cpst99s3ba4omluus0r1j6jrpkdnbv3l.apps.googleusercontent.com</string>-->
     <string name="kakao_app_key">6d0d97eb3be3d4fcb80bda6feb5c58b3</string>
+    <string name="naver_client_id">zDX_nCtPFtuQFCV4avmi</string>
+    <string name="naver_client_secret">xGLK4BTMPD</string>
+    <string name="naver_client_name">matchCube</string>
 </resources>
