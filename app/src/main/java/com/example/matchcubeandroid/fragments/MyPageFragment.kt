@@ -1,8 +1,12 @@
 package com.example.matchcubeandroid.fragments
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +16,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.matchcubeandroid.R
+import com.example.matchcubeandroid.activities.EditMyProfileActivity
+import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.adapter.OptionAdapter
 import com.example.matchcubeandroid.adapter.ProfileAdapter
 import com.example.matchcubeandroid.image.URLtoBitmapTask
@@ -19,6 +25,7 @@ import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.fragment_my_page.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -32,7 +39,11 @@ class MyPageFragment : Fragment() {
     }
 
     // 프로필 정보 불러오기 (수정필요)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
@@ -41,12 +52,16 @@ class MyPageFragment : Fragment() {
 
 
         Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
-            override fun onResponse(call: Call<AccountIdModel>, response: Response<AccountIdModel>) {
+            override fun onResponse(
+                call: Call<AccountIdModel>,
+                response: Response<AccountIdModel>
+            ) {
 
                 if (response.body()?.statusCode == 100) { // 100 : successful
                     val data = response.body()?.data
                     data?.let { Result.success(data) }
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("Account", "${response.body()?.toString()}")
                     name.setText(data?.name)
 
@@ -57,9 +72,9 @@ class MyPageFragment : Fragment() {
                     }
                     var bitmap: Bitmap = image_task.execute().get()
                     profileimage.setImageBitmap(bitmap)
-                }
-                else {
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("d", "${response.body()?.toString()}")
                 }
             }
@@ -72,18 +87,24 @@ class MyPageFragment : Fragment() {
 
         })
 
+
+
+
+
+
         Client.retrofitService.myTeams(1).enqueue(object : Callback<MyTeamsModel> {
             override fun onResponse(call: Call<MyTeamsModel>, response: Response<MyTeamsModel>) {
 
                 if (response.body()?.statusCode == 100) { // 100 : successful
                     val data = response.body()?.data
                     data?.let { Result.success(data) }
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("teamsId", "${response.body()?.toString()}")
 
-                }
-                else {
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
+                        .show()
                     Log.d("d", "${response.body()?.toString()}")
                 }
             }
@@ -100,18 +121,18 @@ class MyPageFragment : Fragment() {
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         val opsList: ListView = view.findViewById(R.id.options)
         btn.setOnClickListener {
+            startActivity(Intent(context, EditMyProfileActivity::class.java))
 
 
         }
-
-
 
 
         val profileList = arrayListOf( // DB에 저장된 값으로 수정 가능 할 것으로 보임!
             ProfileModel(R.drawable.ic_android_drawer, "토트넘")
         )
 
-        rvTeamProfImgs.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        rvTeamProfImgs.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         rvTeamProfImgs.setHasFixedSize(true)
         rvTeamProfImgs.adapter = ProfileAdapter(profileList)
 
@@ -128,38 +149,37 @@ class MyPageFragment : Fragment() {
 
         // 클릭이벤트 활성화 해야함(수정 필요)
         // 버튼 눌렀을때 해당 프레그먼트로 이동할수 있도록 변경해야함
-        opsList.setOnItemClickListener { parent:AdapterView<*>, view:View, position:Int, id:Long ->
+        opsList.setOnItemClickListener { parent: AdapterView<*>, view: View, position: Int, id: Long ->
             if (position == 0) {
-                Toast.makeText(context, "공지사항",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "공지사항", Toast.LENGTH_SHORT).show()
             }
             if (position == 1) {
-                Toast.makeText(context, "이용약관",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "이용약관", Toast.LENGTH_SHORT).show()
             }
             if (position == 2) {
-                Toast.makeText(context, "앱설정",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "앱설정", Toast.LENGTH_SHORT).show()
             }
         }
 
 
-
-
-
-
-
-// 클릭이벤트 활성화 해야함(수정 필요)
         return view
     }
 
 
 
+
     override fun onDestroy() {
-        if(MySharedPreferences.getAutoChecked(requireContext()).equals("N")){
+        if (MySharedPreferences.getAutoChecked(requireContext()).equals("N")) {
             MySharedPreferences.clearUser(requireContext())
         }
         super.onDestroy()
     }
-
-
-
-
 }
+
+
+
+
+
+
+
+
