@@ -2,25 +2,22 @@ package com.example.matchcubeandroid.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.TextView
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
-import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.AccountIdModel
 import com.example.matchcubeandroid.retrofit.Client
-import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_edit_my_profile.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 
 class EditMyProfileActivity : AppCompatActivity() {
@@ -32,11 +29,11 @@ class EditMyProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_my_profile)
 
-
-
-
-        val name: TextView = findViewById(R.id.MyProfile)
         val profileimage: CircleImageView = findViewById(R.id.editImgProfile)
+
+        val editnickname: EditText = findViewById(R.id.editNickName)
+        val editphonenumber: EditText = findViewById(R.id.editPhoneNumber)
+        val editbirthday: EditText = findViewById(R.id.editBirthday)
 
 
         Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
@@ -51,15 +48,13 @@ class EditMyProfileActivity : AppCompatActivity() {
                     Toast.makeText(this@EditMyProfileActivity, response.body()?.responseMessage, Toast.LENGTH_SHORT)
                         .show()
                     Log.d("Account", "${response.body()?.toString()}")
-                    name.setText(data?.name)
+                    editnickname.setText(data?.nickName)
+                    editphonenumber.setText(data?.phoneNumber)
+                    editbirthday.setText(data?.birthday)
+
 
                     // 이미지 처리 객체
-                    var image_task: URLtoBitmapTask = URLtoBitmapTask()
-                    image_task = URLtoBitmapTask().apply {
-                        url = URL(data?.profileImage)
-                    }
-                    var bitmap: Bitmap = image_task.execute().get()
-                    profileimage.setImageBitmap(bitmap)
+                    Glide.with(this@EditMyProfileActivity).load(data?.profileImage).into(editImgProfile)
                 } else {
                     Toast.makeText(this@EditMyProfileActivity, response.body()?.responseMessage, Toast.LENGTH_SHORT)
                         .show()

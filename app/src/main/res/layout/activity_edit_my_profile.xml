@@ -6,24 +6,143 @@
     android:layout_height="match_parent"
     tools:context=".activities.EditMyProfileActivity">
 
+    <TextView
+        android:id="@+id/MyProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="내 프로필"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/editImgProfile"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/MyProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="내 프로필"
-        app:layout_constraintBottom_toTopOf="@+id/editImgProfile"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@+id/MyProfile" />
+
+
+    <TextView
+        android:id="@+id/txtEditNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="닉 네 임"
+        app:layout_constraintBottom_toBottomOf="@+id/editNickName"
+        app:layout_constraintEnd_toStartOf="@+id/editNickName"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editNickName" />
+
+
+    <EditText
+        android:id="@+id/editNickName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/btnUpdateNickName"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdateNickName"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txtEditNickName"
+        app:layout_constraintTop_toTopOf="@+id/btnUpdateNickName"
+        app:layout_constraintVertical_bias="0.0" />
+
+
+
+    <Button
+        android:id="@+id/btnUpdateNickName"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="변경"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpdatePhoneNumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editNickName"
+        app:layout_constraintTop_toBottomOf="@+id/editImgProfile"
+        app:layout_constraintVertical_chainStyle="spread" />
+
+
+    <TextView
+        android:id="@+id/txtEditPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전화번호"
+        app:layout_constraintBottom_toBottomOf="@+id/editPhoneNumber"
+        app:layout_constraintEnd_toStartOf="@+id/editPhoneNumber"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editPhoneNumber" />
+
+    <EditText
+        android:id="@+id/editPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="@+id/btnUpdatePhoneNumber"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdatePhoneNumber"
+        app:layout_constraintStart_toEndOf="@+id/txtEditPhoneNumber"
+        app:layout_constraintTop_toTopOf="@+id/btnUpdatePhoneNumber" />
+
+    <Button
+        android:id="@+id/btnUpdatePhoneNumber"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="변경"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpdateBirthday"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editPhoneNumber"
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdateNickName" />
+
+
+    <TextView
+        android:id="@+id/txtEditBirthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="생년월일"
+        app:layout_constraintBottom_toBottomOf="@+id/editBirthday"
+        app:layout_constraintEnd_toStartOf="@+id/editBirthday"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editBirthday" />
+
+    <EditText
+        android:id="@+id/editBirthday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="@+id/btnUpdateBirthday"
+        app:layout_constraintEnd_toStartOf="@+id/btnUpdateBirthday"
+        app:layout_constraintStart_toEndOf="@+id/txtEditBirthday"
+        app:layout_constraintTop_toTopOf="@+id/btnUpdateBirthday" />
+
+
+    <Button
+        android:id="@+id/btnUpdateBirthday"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:text="변경"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editBirthday"
+        app:layout_constraintTop_toBottomOf="@+id/btnUpdatePhoneNumber" />
+
+
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

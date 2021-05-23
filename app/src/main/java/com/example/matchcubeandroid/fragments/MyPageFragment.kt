@@ -1,12 +1,8 @@
 package com.example.matchcubeandroid.fragments
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,21 +11,20 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.EditMyProfileActivity
-import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.adapter.OptionAdapter
 import com.example.matchcubeandroid.adapter.ProfileAdapter
-import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.android.synthetic.main.activity_edit_my_profile.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 
 class MyPageFragment : Fragment() {
@@ -48,7 +43,6 @@ class MyPageFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
         val name: TextView = view.findViewById(R.id.txtName)
-        val profileimage: CircleImageView = view.findViewById(R.id.imgProfile)
 
 
         Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
@@ -65,13 +59,7 @@ class MyPageFragment : Fragment() {
                     Log.d("Account", "${response.body()?.toString()}")
                     name.setText(data?.name)
 
-                    // 이미지 처리 객체
-                    var image_task: URLtoBitmapTask = URLtoBitmapTask()
-                    image_task = URLtoBitmapTask().apply {
-                        url = URL(data?.profileImage)
-                    }
-                    var bitmap: Bitmap = image_task.execute().get()
-                    profileimage.setImageBitmap(bitmap)
+                    Glide.with(context).load(data?.profileImage).into(imgProfile)
                 } else {
                     Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
                         .show()

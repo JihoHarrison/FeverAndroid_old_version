@@ -1,5 +1,7 @@
 package com.example.matchcubeandroid.model
 
+import android.telephony.PhoneNumberFormattingTextWatcher
+
 
 data class AccountIdModel(
         val statusCode: Int,
@@ -12,5 +14,9 @@ data class AccountIdModelData(
         var profileImage: String,
         var nickName: String,
         var name: String,
-        var emailId: String
+        var emailId: String,
+        var phoneNumber: String,
+        var birthday: String,
+        var sex: String
+
 )
