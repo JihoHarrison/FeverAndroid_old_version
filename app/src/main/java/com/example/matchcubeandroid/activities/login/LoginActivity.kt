@@ -3,9 +3,13 @@ package com.example.matchcubeandroid.activities.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
+import com.example.matchcubeandroid.model.AccountIdModel
+import com.example.matchcubeandroid.retrofit.Client
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -16,6 +20,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.fragment_my_page.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 class LoginActivity : AppCompatActivity() {
@@ -78,16 +86,32 @@ class LoginActivity : AppCompatActivity() {
     // firebaseAuthWithGoogle
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         Log.d("LoginActivity", "firebaseAuthWithGoogle:" + acct.id!!)
+        Log.d("idToken", "idToken : " + acct.idToken!!)
 
         //Google SignInAccount 객체에서 ID 토큰을 가져와서 Firebase Auth로 교환하고 Firebase에 인증
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         firebaseAuth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    Log.w("LoginActivity", "firebaseAuthWithGoogle 성공", task.exception)
-                    toMainActivity(firebaseAuth?.currentUser)
+                    val emailId = firebaseAuth.currentUser.email
+                    Log.d("email", "email : " + emailId)
+
+                    // DB에 회원등록이 되어있는지 데이터 조회
+//                    var getAccountYn = getAccountYn(emailId)
+                    var getAccountYn = 'N'
+
+                    if (getAccountYn.equals('N')){
+                        Log.d("email", "Error")
+                        // 회원가입 화면으로 이동
+                        val registerIntent = Intent(this, RegisterActivity::class.java)
+                        registerIntent.putExtra("emailId", emailId)
+                        registerIntent.putExtra("socialType", "1")
+                        startActivity(registerIntent)
+                        finish()
+                    }else{
+                        toMainActivity(firebaseAuth?.currentUser)
+                    }
                 } else {
-                    Log.w("LoginActivity", "firebaseAuthWithGoogle 실패", task.exception)
                 }
             }
     }// firebaseAuthWithGoogle END
@@ -115,5 +139,23 @@ class LoginActivity : AppCompatActivity() {
             //updateUI(null)
         }
     }
+
+//    private fun getAccountYn(email: String): String { // DB 회원등록 여부 조회
+//        Client.retrofitService.accountId(email, "1").enqueue(object : Callback<AccountIdModel> {
+//            override fun onResponse(
+//                call: Call<AccountIdModel>,
+//                response: Response<AccountIdModel>
+//            ) {
+//                val data = response.body()?.data
+//                val accountYn = response.body()?.data.accountId
+//                data?.let { Result.success(data) }
+//                return
+//            }
+//
+//            override fun onFailure(call: Call<AccountIdModel>, t: Throwable) {
+//            }
+//
+//        })
+//    }
 }
 

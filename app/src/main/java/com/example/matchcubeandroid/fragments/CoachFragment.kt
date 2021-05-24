@@ -16,9 +16,6 @@ class CoachFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_coach, container, false)
 
-        var context: Context = view.context
-        startActivity(Intent(context, LoginActivity::class.java))
-
         return view
     }
 

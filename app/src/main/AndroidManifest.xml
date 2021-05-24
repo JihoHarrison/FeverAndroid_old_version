@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.matchcubeandroid">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.example.matchcubeandroid">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
 
     <application
         android:name=".activities.main.GlobalApplication"
@@ -17,38 +17,40 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MatchCubeAndroid"
         android:usesCleartextTraffic="true">
-        <activity android:name=".activities.EditMyProfileActivity"
-                android:theme="@style/Theme.MatchCubeAndroid"/>
-        <!-- Splash Activity -->
+        <activity android:name=".activities.login.RegisterActivity">
+        </activity>
+        <activity
+            android:name=".activities.EditMyProfileActivity"
+            android:theme="@style/Theme.MatchCubeAndroid"/> <!-- Splash Activity -->
         <activity
             android:name=".activities.MatchCubeSplash"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity> <!-- Splash Activity -->
-        <activity android:name=".activities.login.LoginActivity" />
+        <activity android:name=".activities.login.LoginActivity"/>
         <activity
             android:name=".activities.main.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
                 <data
                     android:host="oauth"
-                    android:scheme="kakao6d0d97eb3be3d4fcb80bda6feb5c58b3" />
+                    android:scheme="kakao6d0d97eb3be3d4fcb80bda6feb5c58b3"/>
             </intent-filter>
         </activity>
     </application>
