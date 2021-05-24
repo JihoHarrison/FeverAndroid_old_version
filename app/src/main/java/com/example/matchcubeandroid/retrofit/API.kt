@@ -46,10 +46,9 @@ interface API {
     @GET("team")
     fun myTeamsDetail(
         @Query("categoryId") categoryId: Int,
-        @Query("teamArea") teamArea: String,
         @Query("teamName") teamName: String,
-        @Query("orderFamous") orderFamous: String,
-        @Query("orderActive") orderActive: String,
+        @Query("teamArea") teamArea: String,
+        @Query("order") order: String,
         @Query("wantPlayer") wantPlayer: String,
         @Query("wantMercenary") wantMercenary: String,
         @Query("wantMatch") wantMatch: String): Call<MatchTeamsDetailModel>

@@ -87,19 +87,13 @@ class Matchtabteam : Fragment() {
             }
         })
 
-        Client.retrofitService.myTeamsDetail(1, "abcdef", "노원구", "N","N", "default", "default", "default").enqueue(object: Callback<MatchTeamsDetailModel>{
+        Client.retrofitService.myTeamsDetail(0,"abcdef", "노원구", "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
             override fun onResponse(call: Call<MatchTeamsDetailModel>, response: Response<MatchTeamsDetailModel>) {
-                if(response.body()!!.statusCode == 202){
-                    Toast.makeText(context, "해당 팀이 없습니다.", Toast.LENGTH_SHORT).show()
-                } else if(response.body()!!.statusCode == 214){
-                    Toast.makeText(context, "해당 입력 값으로는 정렬 불가.", Toast.LENGTH_SHORT).show()
-                }
-                Toast.makeText(context, "정상입니다.", Toast.LENGTH_SHORT).show()
-
-                }
+                Toast.makeText(context, "내 팀 정보 조회 성공", Toast.LENGTH_SHORT).show()
+            }
 
             override fun onFailure(call: Call<MatchTeamsDetailModel>, t: Throwable) {
-                Toast.makeText(context, "팀 세부정보 네트워크 오류", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "내 팀 정보 조회 실패", Toast.LENGTH_SHORT).show()
             }
 
         })
