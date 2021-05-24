@@ -1,7 +1,7 @@
 package com.example.matchcubeandroid.model
 
 data class MatchtabTeamsModel(
-    val imgTeams: String,
-    val txtTeamNameList: String,
-    val txtOneLineIntro: String
+    var imgTeams: String,
+    var txtTeamNameList: String,
+    var txtOneLineIntro: String
 )

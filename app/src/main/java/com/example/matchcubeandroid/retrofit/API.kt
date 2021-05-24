@@ -43,8 +43,16 @@ interface API {
     // 팀의 세부 정보 가져오는 api
     @Headers("accept: application/json",
         "content-type: application/json")
-    @GET("team/{teamId}")
-    fun myTeamsDetail(@Path("teamId") teamId: Int): Call<MatchtabTeamsModel>
+    @GET("team")
+    fun myTeamsDetail(
+        @Query("categoryId") categoryId: Int,
+        @Query("teamArea") teamArea: String,
+        @Query("teamName") teamName: String,
+        @Query("orderFamous") orderFamous: String,
+        @Query("orderActive") orderActive: String,
+        @Query("wantPlayer") wantPlayer: String,
+        @Query("wantMercenary") wantMercenary: String,
+        @Query("wantMatch") wantMatch: String): Call<MatchTeamsDetailModel>
 
     // 선수 세부정보 불러오는 api
     @Headers("accept: application/json",

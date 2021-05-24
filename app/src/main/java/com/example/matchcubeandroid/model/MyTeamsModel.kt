@@ -8,7 +8,6 @@ data class MyTeamsModel (
     val data: List<MyTeamsInfoModel>?)
 
 data class MyTeamsInfoModel(
-
     var teamId: Long?,
     var teamName: String?,
     var teamImageUrl: String?,

@@ -21,8 +21,7 @@
                 android:layout_height="wrap_content"
                 android:text="FEVER!"
                 android:layout_gravity="center"
-                android:textSize="30dp">
-
+                android:textSize="21dp">
             </TextView>
 
             <LinearLayout
@@ -34,7 +33,8 @@
                     android:id="@+id/matchLocateSpinner"
                     android:textAlignment="center"
                     android:layout_width="100dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:spinnerMode="dialog">
                 </androidx.appcompat.widget.AppCompatSpinner>
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/matchGunguSpinner"

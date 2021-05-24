@@ -50,12 +50,10 @@ class MatchFragment : Fragment() {
 
         var locateArrayAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_item, matchLocateSido)
         var locateGunguAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, matchLocategungu)
+        locateArrayAdapter.setNotifyOnChange(true)
+        locateGunguAdapter.setNotifyOnChange(true)
         locateArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         locateGunguAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        var arrayAdapter = ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, matchLocateSido)
-//        matchLocateSpinner.setOnItemClickListener(AdapterView.OnItemSelectedListener() {
-
-//        })
 
         // api interface : city -> 시 * 도만 출력
         Client.retrofitService.locate().enqueue(object : Callback<LocateModel>, AdapterView.OnItemSelectedListener {
@@ -102,6 +100,9 @@ class MatchFragment : Fragment() {
                                         for (i in i..(sizeArr-1)) {
                                             matchLocategungu.add(response.body()!!.data[i].name) // 군 구 데이터 배열 저장
                                         }
+
+                                        
+
                                     } else {
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                     }
