@@ -61,6 +61,17 @@ interface API {
     fun playersDetail(@Path("userId") userId: Long): Call<PlayerDetailModel>
     // ID, PW 찾기
 
+    @Headers(
+        "accept: application/json",
+        "content-type: application/json"
+    )
+    @PATCH("update") // 로그인
+//        @Field("emailId") emailId: String,
+//        @Field("password") pwd: String
+    fun update(
+        @Body params: HashMap<String, String>
+    ): Call<AccountIdModel>
+
 
 
 }
