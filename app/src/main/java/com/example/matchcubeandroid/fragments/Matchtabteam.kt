@@ -23,6 +23,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.matchcubeandroid.model.ProfileModel
+import java.lang.IndexOutOfBoundsException
+import java.lang.NullPointerException
 import android.util.Log.d as logD
 
 class Matchtabteam : Fragment() {
@@ -39,7 +41,7 @@ class Matchtabteam : Fragment() {
         var teamsLists = ArrayList<MatchtabTeamsModel>()
         var detailTeamsList = ArrayList<MatchtabTeamsModel>()
 
-        Client.retrofitService.myTeams(accountId).enqueue(object: Callback<MyTeamsModel> {
+        Client.retrofitService.myTeams(teamId).enqueue(object: Callback<MyTeamsModel> {
             override fun onResponse(call: Call<MyTeamsModel>, response: Response<MyTeamsModel>) {
 
                 if (response.body()?.statusCode == 204) { // 200 : successful
@@ -65,20 +67,10 @@ class Matchtabteam : Fragment() {
                                     )
                                 )
                             }
-
+                            myTeamsRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            myTeamsRc.setHasFixedSize(true)
+                            myTeamsRc.adapter = MatchtabTeamsAdapter(context, teamsLists)
                         }
-                        myTeamsRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        teamsCompeteRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        teamsToRegistRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        teamsAsSoloRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                        myTeamsRc.setHasFixedSize(true)
-                        teamsCompeteRc.setHasFixedSize(true)
-                        teamsToRegistRc.setHasFixedSize(true)
-                        teamsAsSoloRc.setHasFixedSize(true)
-                        myTeamsRc.adapter = MatchtabTeamsAdapter(context, teamsLists)
-                        teamsToRegistRc.adapter = MatchtabTeamsAdapter(context, teamsLists)
-                        teamsCompeteRc.adapter = MatchtabTeamsAdapter(context, teamsLists)
-                        teamsAsSoloRc.adapter = MatchtabTeamsAdapter(context, teamsLists)
                     }
                 }
             }
@@ -87,18 +79,43 @@ class Matchtabteam : Fragment() {
             }
         })
 
-        Client.retrofitService.myTeamsDetail(0,"abcdef", "노원구", "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
+        Client.retrofitService.myTeamsDetail(0,"a", "노원구", "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
             override fun onResponse(call: Call<MatchTeamsDetailModel>, response: Response<MatchTeamsDetailModel>) {
-                Toast.makeText(context, "내 팀 정보 조회 성공", Toast.LENGTH_SHORT).show()
+
+                if(response.body()!!.statusCode == 202){
+                    Toast.makeText(context, "목록에 해당하는 팀이 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+                var size = response.body()!!.data.size.toInt()
+
+                for(i in 0 until size){
+                    detailTeamsList?.apply {
+                        add(
+                            MatchtabTeamsModel(
+                                response.body()!!.data?.get(i)?.teamImageUrl.toString(),
+                                response.body()!!.data?.get(i)?.teamName,
+                                response.body()!!.data?.get(i)?.teamIntro
+                            )
+                        )
+                    }
+                }
+
+                teamsCompeteRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                teamsToRegistRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                teamsAsSoloRc.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+                teamsCompeteRc.setHasFixedSize(true)
+                teamsToRegistRc.setHasFixedSize(true)
+                teamsAsSoloRc.setHasFixedSize(true)
+
+                teamsToRegistRc.adapter = MatchtabTeamsAdapter(context, detailTeamsList)
+                teamsCompeteRc.adapter = MatchtabTeamsAdapter(context, detailTeamsList)
+                teamsAsSoloRc.adapter = MatchtabTeamsAdapter(context, detailTeamsList)
             }
 
             override fun onFailure(call: Call<MatchTeamsDetailModel>, t: Throwable) {
                 Toast.makeText(context, "내 팀 정보 조회 실패", Toast.LENGTH_SHORT).show()
             }
-
         })
-
-
         return view
     }
 }

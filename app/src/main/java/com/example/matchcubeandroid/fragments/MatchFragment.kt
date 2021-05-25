@@ -100,9 +100,6 @@ class MatchFragment : Fragment() {
                                         for (i in i..(sizeArr-1)) {
                                             matchLocategungu.add(response.body()!!.data[i].name) // 군 구 데이터 배열 저장
                                         }
-
-                                        
-
                                     } else {
                                         Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                                     }
