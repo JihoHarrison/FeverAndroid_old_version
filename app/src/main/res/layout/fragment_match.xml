@@ -29,19 +29,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/matchLocateSpinner"
-                    android:textAlignment="center"
-                    android:layout_width="100dp"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnLocate"
+                    android:textColor="#808080"
+                    android:text="위치를 입력해주세요"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:spinnerMode="dialog">
-                </androidx.appcompat.widget.AppCompatSpinner>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/matchGunguSpinner"
-                    android:textAlignment="center"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent">
-                </androidx.appcompat.widget.AppCompatSpinner>
+                    android:backgroundTint="@color/white"
+                    android:drawableRight="@drawable/arrow_forward_locate"/>
+
             </LinearLayout>
         </LinearLayout>
 

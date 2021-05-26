@@ -14,6 +14,10 @@ class Matchtabplayer : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_matchtabplayer, container, false)
 
+        val context = view.context
+
+
+
         return view
     }
 }

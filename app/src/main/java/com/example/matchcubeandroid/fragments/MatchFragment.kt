@@ -1,21 +1,31 @@
 package com.example.matchcubeandroid.fragments
 
 import android.R.string
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Insets.add
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.view.WindowManager
+import android.widget.*
+import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.core.view.OneShotPreDrawListener.add
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.MatchTabTeamPlrAdapter
+import com.example.matchcubeandroid.adapter.MatchtabTeamsAdapter
 import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.LocateModel
 import com.example.matchcubeandroid.model.PlayerDetail
@@ -24,6 +34,8 @@ import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_match.*
+import kotlinx.android.synthetic.main.fragment_matchtabteam.*
+import kotlinx.android.synthetic.main.locate_dialog_sido.*
 import okhttp3.internal.notify
 import okhttp3.internal.notifyAll
 import retrofit2.Call
@@ -35,87 +47,84 @@ class MatchFragment : Fragment() {
 
     private lateinit var viewPagers: ViewPager
     private lateinit var tabLayouts: TabLayout
+    private lateinit var btnLocate: AppCompatButton
+    private lateinit var sidoDialogRc: RecyclerView
 
     private val matchLocateSido:ArrayList<String> = ArrayList()
     private val matchLocatecode:ArrayList<Int> = ArrayList() // 시 도의 코드값을 저장 해 놓을 ArrayList
     private val matchLocategungu:ArrayList<String> = ArrayList()
-    private lateinit var playerDetailName: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
-
+        val sidoDialogView = inflater.inflate(R.layout.locate_dialog_sido, null)
+        btnLocate = view.findViewById(R.id.btnLocate)
+        sidoDialogRc = sidoDialogView.findViewById(R.id.sidoDialogRc)
         var context: Context = view.context
         //var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
-
-        var locateArrayAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_item, matchLocateSido)
+        var locateArrayAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_list_item_1, matchLocateSido)
         var locateGunguAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, matchLocategungu)
-        locateArrayAdapter.setNotifyOnChange(true)
-        locateGunguAdapter.setNotifyOnChange(true)
-        locateArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        locateGunguAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val sidoAdapter = LocateAdapter(context, matchLocateSido)
 
-        // api interface : city -> 시 * 도만 출력
-        Client.retrofitService.locate().enqueue(object : Callback<LocateModel>, AdapterView.OnItemSelectedListener {
-            override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
-                if (response.body()?.statusCode == 100) { // 200 : successful
 
-                    val data = response.body()?.data
-                    val bodyData = response.body()!!
-                    data?.let { Result.success(data) }
-                    var sizeArr: Int = bodyData.data!!.size.toInt()
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
-                    Log.d("locateTag", "${response.body()?.toString()}")
+        // 위치 입력하기 위해 누르는 버튼
+        btnLocate.setOnClickListener {
+            Client.retrofitService.locate().enqueue(object : Callback<LocateModel>{
+                override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
+                    if(response.body()!!.statusCode == 100){
+                        var size = response.body()!!.data?.size
+                        for(i in 0..size-1){
+                            matchLocateSido.apply {
+                                add(
+                                    response.body()?.data?.get(i)!!.name
+                                )
+                            }
+                            matchLocatecode.apply {
+                                add(
+                                    response.body()?.data?.get(i)!!.code
+                                )
+                            }
 
-                    for (i in i..(sizeArr - 1)) {
-                        matchLocateSido.add(bodyData.data!![i].name)
-                        matchLocatecode.add(bodyData.data!![i].code)
+                        }
+                        showSidoDialog(context)
                     }
-
-                    // 시 도 스피너 어댑터 지정
-                    matchLocateSpinner?.adapter = locateArrayAdapter
-                    matchLocateSpinner.setSelection(3) // 스피너 default 값
-                    matchLocateSpinner.onItemSelectedListener = this
-
-                } else {
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                 }
-            }
-            override fun onFailure(call: Call<LocateModel>, t: Throwable) {
-                t?.message?.let {
-                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+
+                override fun onFailure(call: Call<LocateModel>, t: Throwable) {
+                    Toast.makeText(context,"위치 조회 실패", Toast.LENGTH_SHORT).show()
                 }
-            }
-            /** 시, 도 스피너가 선택되었을 때의 이벤트 처리 부분 **/
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object : Callback<LocateModel> {
-                                override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
-                                    if (response.body()?.statusCode == 100) { // 200 : successful
-                                        val data = response.body()?.data
-                                        val bodyData = response.body()?.data!!
-                                        data?.let { Result.success(data) }
-                                        matchLocategungu.clear() // 군,구 스피너 ArrayList 갱신
-                                        val sizeArr: Int = bodyData.size
-                                        Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
-                                        for (i in i..(sizeArr-1)) {
-                                            matchLocategungu.add(response.body()!!.data[i].name) // 군 구 데이터 배열 저장
-                                        }
-                                    } else {
-                                        Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
-                                    }
-                                    matchGunguSpinner?.adapter = locateGunguAdapter // 어댑터 지정
-                                }
-                                override fun onFailure(call: Call<LocateModel>, t: Throwable) {
-                                    t?.message?.let {
-                                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                                    }
-                                }
-                            })
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                TODO("Not yet implemented")
-            }
-        })
+
+                fun showSidoDialog(context: Context){
+                    val dialog = Dialog(context)
+                    dialog.setCancelable(false)
+                    dialog.setContentView(R.layout.locate_dialog_sido)
+
+                    var recyclerView: RecyclerView = dialog.findViewById(R.id.sidoDialogRc)
+                    var btnCancel = dialog.findViewById<AppCompatImageButton>(R.id.btnCancel)
+                    recyclerView.adapter = sidoAdapter
+                    sidoAdapter.setItemClickListener(object : LocateAdapter.OnItemClickListener{
+                        override fun onClick(v: View, position: Int) {
+                            /**여기서 군 * 구 다이얼로그 띄워줘야함.**/
+                        }
+
+                    })
+
+                    recyclerView.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
+                    btnCancel.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                    dialog.show()
+                }
+            })
+
+
+
+
+        }
+
+
+
+
 
         /***여기에 선수 상세정보 불러와서 userId에 따라 세부 종목 불러우는 코드가 들어가야 한다***/
         Client.retrofitService.playersDetail(1).enqueue(object : Callback<PlayerDetailModel>{
@@ -144,6 +153,7 @@ class MatchFragment : Fragment() {
 
         setUpViewPager()
 
+
         /**선수, 팀 탭이 선택 , 재선택 , 선택되지 않았을 시**/
         tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -162,6 +172,7 @@ class MatchFragment : Fragment() {
 
     }
 
+
     override fun onDestroy() {
         super.onDestroy()
     }
@@ -177,5 +188,51 @@ class MatchFragment : Fragment() {
         viewPagers!!.adapter = adapter
         tabLayouts!!.setupWithViewPager(viewPagers)
     }
+
+}
+// 시 도 위치를 리사이클러뷰에 연결시켜주는 어뎁터
+class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateAdapter.ViewHolder>() {
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        var textView = view.findViewById<TextView>(R.id.txtLocate)
+    }
+
+    // Create new views (invoked by the layout manager)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        // Create a new view, which defines the UI of the list item
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.recycler_items_white, viewGroup, false)
+
+        return ViewHolder(view)
+    }
+
+    // Replace the contents of a view (invoked by the layout manager)
+    override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
+
+        // Get element from your dataset at this position and replace the
+        // contents of the view with that element
+        viewHolder.textView.text = dataset.get(position)
+
+        // 인터페이스로 각각의 아이템이 지금 이 클래스 외부에서 클릭 되었을 때 onClick 함수 재정의 시킴.
+        viewHolder.itemView.setOnClickListener{
+            itemClickListener.onClick(it, position)
+        }
+
+    }
+    interface OnItemClickListener{
+        fun onClick(v: View, position: Int)
+    }
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+
+    private lateinit var itemClickListener : OnItemClickListener
+
+    // Return the size of your dataset (invoked by the layout manager)
+    override fun getItemCount() = dataset.size
 
 }
