@@ -6,16 +6,28 @@ import android.content.SharedPreferences
 object MySharedPreferences {
     private val MY_ACCOUNT : String = "account"
 
-    fun setUserId(context: Context, input: String) {
+    fun setUserId(context: Context, input: Int) {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
         val editor : SharedPreferences.Editor = prefs.edit()
-        editor.putString("emailId", input)
+        editor.putInt("accountId", input)
         editor.commit()
     }
 
-    fun getUserId(context: Context): String {
+    fun getSocialType(context: Context): String {
         val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
-        return prefs.getString("emailId", "").toString()
+        return prefs.getString("socialType", "").toString()
+    }
+
+    fun setSocialType(context: Context, input: String) {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = prefs.edit()
+        editor.putString("socialType", input)
+        editor.commit()
+    }
+
+    fun getUserId(context: Context): Int {
+        val prefs : SharedPreferences = context.getSharedPreferences(MY_ACCOUNT, Context.MODE_PRIVATE)
+        return prefs.getInt("accountId", 0)
     }
 
     fun setUserPass(context: Context, input: String) {

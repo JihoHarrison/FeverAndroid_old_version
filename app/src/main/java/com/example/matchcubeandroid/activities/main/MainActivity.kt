@@ -26,21 +26,16 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
-//            if (error != null) {
-//                //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
-//                startActivity(Intent(this, LoginActivity::class.java))
-//            }
-//            else if (tokenInfo != null) {
-//                //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
-//            }
-//        }
+        MySharedPreferences.setUserId(this, 1)
+        MySharedPreferences.getUserId(this)
         bottom_navigation_view.setOnNavigationItemSelectedListener(this)
 
         val fragMath = MatchFragment()
         supportFragmentManager.beginTransaction().
                 replace(R.id.frame_layout, fragMath).commit()
     }
+
+
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){

@@ -65,12 +65,26 @@ interface API {
         "content-type: application/json"
     )
     @PATCH("update") // 로그인
-//        @Field("emailId") emailId: String,
-//        @Field("password") pwd: String
     fun update(
         @Body params: HashMap<String, String>
     ): Call<AccountIdModel>
 
+    // 회원가입 여부 조회 API
+    @Headers("accept: application/json",
+        "content-type: application/json")
+    @GET("user")
+    fun isExstUser(
+        @Query("emailId") emailId: String,
+        @Query("socialType") socialType: String
+    ): Call<DefaultResponseModel>
+
+    // 회원가입 API
+    @Headers("accept: application/json",
+        "content-type: application/json")
+    @POST("user")
+    fun register(
+        @Body params: HashMap<String, Any>
+    ): Call<DefaultResponseModel>
 
 
 }
