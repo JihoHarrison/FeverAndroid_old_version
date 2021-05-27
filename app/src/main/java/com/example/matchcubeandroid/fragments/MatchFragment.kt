@@ -62,10 +62,7 @@ class MatchFragment : Fragment() {
         var context: Context = view.context
         //var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
-        var locateArrayAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_list_item_1, matchLocateSido)
-        var locateGunguAdapter: ArrayAdapter<String> = ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, matchLocategungu)
         val sidoAdapter = LocateAdapter(context, matchLocateSido)
-
 
         // 위치 입력하기 위해 누르는 버튼
         btnLocate.setOnClickListener {
@@ -116,16 +113,7 @@ class MatchFragment : Fragment() {
                     dialog.show()
                 }
             })
-
-
-
-
         }
-
-
-
-
-
         /***여기에 선수 상세정보 불러와서 userId에 따라 세부 종목 불러우는 코드가 들어가야 한다***/
         Client.retrofitService.playersDetail(1).enqueue(object : Callback<PlayerDetailModel>{
             override fun onResponse(call: Call<PlayerDetailModel>, response: Response<PlayerDetailModel>) {
@@ -223,9 +211,11 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
         }
 
     }
+
     interface OnItemClickListener{
         fun onClick(v: View, position: Int)
     }
+
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
     }
@@ -234,5 +224,4 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataset.size
-
 }
