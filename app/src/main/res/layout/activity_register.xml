@@ -78,26 +78,36 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="bottom">
-
-        <RadioGroup
-            android:id="@+id/radioGroupAgree"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/registerBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
+            android:background="@drawable/kakao_login_medium_narrow"
+        ></androidx.appcompat.widget.AppCompatButton>
+
+        <RadioGroup
+            android:id="@+id/termsOfServiceAgree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/useAgreeRadio"
                 android:text="이용 약관 동의"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 ></androidx.appcompat.widget.AppCompatRadioButton>
+        </RadioGroup>
+        <RadioGroup
+            android:id="@+id/privacyPolicyAgree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <androidx.appcompat.widget.AppCompatRadioButton
                 android:id="@+id/infoAgreeRadio"
                 android:text="개인정보 수집 및 이용 동의"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
             ></androidx.appcompat.widget.AppCompatRadioButton>
-
         </RadioGroup>
     </LinearLayout>
 </LinearLayout>

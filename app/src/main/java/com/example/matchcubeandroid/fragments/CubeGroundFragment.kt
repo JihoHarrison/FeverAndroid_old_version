@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.activities.main.MainActivity
+import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -52,6 +53,9 @@ class CubeGroundFragment : Fragment()  {
     }
 
     private fun signOut() { // 구글로그아웃
+
+        MySharedPreferences.clearUser(requireContext())
+
         // Firebase sign out
         firebaseAuth.signOut()
 
@@ -62,6 +66,9 @@ class CubeGroundFragment : Fragment()  {
     }
 
     private fun revokeAccess() { // 구글회원탈퇴
+
+        MySharedPreferences.clearUser(requireContext())
+
         // Firebase sign out
         firebaseAuth.currentUser.delete()
 
