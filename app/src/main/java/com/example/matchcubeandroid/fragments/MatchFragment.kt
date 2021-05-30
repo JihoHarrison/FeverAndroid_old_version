@@ -170,7 +170,7 @@ class MatchFragment : Fragment() {
                 // 이미지 처리 객체
 //                var image_task: URLtoBitmapTask = URLtoBitmapTask()
 //                image_task = URLtoBitmapTask().apply {
-//                    url = URL(response.body()!!.data?.image)
+//                    url = URL(response.body()!!.data?.image.toString())
 //                }
 //                var bitmap: Bitmap = image_task.execute().get()
 //                match_fragment_category_img.setImageBitmap(bitmap)
