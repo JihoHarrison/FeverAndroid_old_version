@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="21dp"
-        android:text="팀을 찾아보세요...??"
+        android:text="선수 목록 . . ."
         />
 
 

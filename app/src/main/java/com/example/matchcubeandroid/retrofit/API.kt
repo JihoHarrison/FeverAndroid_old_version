@@ -47,7 +47,7 @@ interface API {
     fun myTeamsDetail(
         @Query("categoryId") categoryId: Int,
         @Query("teamName") teamName: String,
-        @Query("teamArea") teamArea: String,
+        @Query("teamArea") teamArea: Int, // -> Int 지역코드, default  == 0 0일때 전체가 뜬다.
         @Query("order") order: String,
         @Query("wantPlayer") wantPlayer: String,
         @Query("wantMercenary") wantMercenary: String,

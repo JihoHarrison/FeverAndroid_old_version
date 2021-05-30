@@ -51,6 +51,8 @@ class MatchFragment : Fragment() {
     private lateinit var btnLocate: AppCompatButton
     private lateinit var sidoDialogRc: RecyclerView
 
+    private lateinit var btnBack: AppCompatImageButton
+
     private val matchLocateSido:ArrayList<String> = ArrayList()
     private val matchLocatecode:ArrayList<Int> = ArrayList() // 시 도의 코드값을 저장 해 놓을 ArrayList
     private val matchLocategungu:ArrayList<String> = ArrayList()
@@ -62,8 +64,7 @@ class MatchFragment : Fragment() {
         btnLocate = view.findViewById(R.id.btnLocate)
         sidoDialogRc = sidoDialogView.findViewById(R.id.sidoDialogRc)
         var context: Context = view.context
-        val dialog = Dialog(context)
-        val dialogGungu = Dialog(context)
+
         //var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
         val sidoAdapter = LocateAdapter(context, matchLocateSido)
@@ -94,10 +95,12 @@ class MatchFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
-                    Toast.makeText(context,"위치 조회 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"시*도 조회 실패", Toast.LENGTH_SHORT).show()
                 }
 
-                fun showSidoDialog(context: Context){
+                fun showSidoDialog(context1: Context){
+                    val dialog = Dialog(context)
+                    val dialogGungu = Dialog(context)
                     dialog.setCancelable(false)
                     dialog.setContentView(R.layout.locate_dialog_sido)
 
@@ -110,6 +113,7 @@ class MatchFragment : Fragment() {
                         /**군, 구 배열을 적용해야 함.**/
                         override fun onClick(v: View, position: Int) {
                             matchLocategungu.clear()
+                            dialog.dismiss()
                             /**리사이클러뷰 클릭 이벤트**/
                             Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object: Callback<LocateModel>{
                                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
@@ -124,15 +128,23 @@ class MatchFragment : Fragment() {
                                         }
                                     dialog.dismiss()
                                     dialogGungu.setCancelable(true)
-                                    dialogGungu.setContentView(R.layout.locate_dialog_gungu)
+                                    dialogGungu.setContentView(R.layout.locate_dialog_gungu).let{
+                                        btnBack = dialogGungu.findViewById(R.id.btnBackGungu)
+                                        btnBack.setOnClickListener {
+                                            dialogGungu.dismiss()
+                                            dialog.show()
+                                        }
+                                    }
                                     var recyclerViewGungu: RecyclerView = dialogGungu.findViewById(R.id.gunguDialogRc)
                                     recyclerViewGungu.adapter = gunguAdapter
                                     recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                                     dialogGungu.show()
-
+                                    gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
+                                        override fun onClick(v: View, position: Int) {
+                                            /** 위치를 선택하세요 버튼의 텍스트를 지정 해 줘야 함 **/
+                                        }
+                                    })
                                 }
-
-
                                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
 
                                 }
@@ -140,18 +152,11 @@ class MatchFragment : Fragment() {
                         }
                     })
 
-
-                    gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
-                        override fun onClick(v: View, position: Int) {
-                            dialogGungu.dismiss()
-                        }
-
-                    })
-
                     recyclerView.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                     btnCancel.setOnClickListener {
                         dialog.dismiss()
                     }
+
                     dialog.show()
                 }
 
@@ -165,7 +170,7 @@ class MatchFragment : Fragment() {
                 // 이미지 처리 객체
                 var image_task: URLtoBitmapTask = URLtoBitmapTask()
                 image_task = URLtoBitmapTask().apply {
-                    url = URL(response.body()!!.data?.image)
+                    url = URL(response.body()!!.data?.image.toString())
                 }
                 var bitmap: Bitmap = image_task.execute().get()
                 match_fragment_category_img.setImageBitmap(bitmap)
