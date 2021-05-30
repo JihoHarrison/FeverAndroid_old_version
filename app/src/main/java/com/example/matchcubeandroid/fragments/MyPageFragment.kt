@@ -49,8 +49,9 @@ class MyPageFragment : Fragment() {
         var myTeamsLayoutContainer: ViewGroup = view.findViewById(R.id.MyPageTeams)
         var profileList = ArrayList<ProfileModel>()
 
+        Log.d("minjun", "account : " + MySharedPreferences.getUserId(context))
 
-        Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
+        Client.retrofitService.accountId(MySharedPreferences.getUserId(context)).enqueue(object : Callback<AccountIdModel> {
             override fun onResponse(
                 call: Call<AccountIdModel>,
                 response: Response<AccountIdModel>
