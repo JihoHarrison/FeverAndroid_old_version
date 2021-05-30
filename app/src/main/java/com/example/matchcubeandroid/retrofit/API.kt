@@ -22,7 +22,7 @@ interface API {
     @GET("city")
     fun locate(): Call<LocateModel>
 
-    // 시*도 별로 가져오는 거임
+    // 시*도 별로 가져오는 거임 (시-군-구)
     @Headers("accept: application/json",
             "content-type: application/json")
     @GET("city/{cityCode}/si-gun-gu")
