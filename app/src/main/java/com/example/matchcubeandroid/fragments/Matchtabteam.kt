@@ -91,6 +91,10 @@ class Matchtabteam : Fragment() {
                 } catch(e: NullPointerException){
                     0
                 }
+                if(size == 0){
+                    
+                }
+
                 for(i in 0 until size){
                     detailTeamsList?.apply {
                         add(

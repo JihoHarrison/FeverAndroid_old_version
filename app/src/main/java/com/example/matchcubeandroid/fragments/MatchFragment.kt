@@ -67,6 +67,7 @@ class MatchFragment : Fragment() {
 
         // 위치 입력하기 위해 누르는 버튼(시 * 도)
         btnLocate.setOnClickListener {
+            matchLocateSido.clear()
             Client.retrofitService.locate().enqueue(object : Callback<LocateModel>{
                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
                     if(response.body()!!.statusCode == 100){
@@ -104,6 +105,7 @@ class MatchFragment : Fragment() {
                     sidoAdapter.setItemClickListener(object : LocateAdapter.OnItemClickListener{
                         /**군, 구 배열을 적용해야 함.**/
                         override fun onClick(v: View, position: Int) {
+                            matchLocategungu.clear()
                             /**리사이클러뷰 클릭 이벤트**/
                             Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object: Callback<LocateModel>{
                                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
@@ -115,27 +117,22 @@ class MatchFragment : Fragment() {
                                                     response.body()!!.data.get(i).name
                                                 )
                                             }
-                                            dialog.dismiss()
-                                            matchLocategungu.clear()
-                                            dialogGungu.setCancelable(true)
-                                            dialogGungu.setContentView(R.layout.locate_dialog_gungu)
-                                            var recyclerViewGungu: RecyclerView = dialogGungu.findViewById(R.id.gunguDialogRc)
-                                            recyclerViewGungu.adapter = gunguAdapter
-                                            recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
-                                            dialogGungu.show()
-
                                         }
-
-
+                                    dialog.dismiss()
+                                    dialogGungu.setCancelable(true)
+                                    dialogGungu.setContentView(R.layout.locate_dialog_gungu)
+                                    var recyclerViewGungu: RecyclerView = dialogGungu.findViewById(R.id.gunguDialogRc)
+                                    recyclerViewGungu.adapter = gunguAdapter
+                                    recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
+                                    dialogGungu.show()
                                 }
 
                                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
+
                                 }
                             })
-
                         }
                     })
-
 
                     recyclerView.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                     btnCancel.setOnClickListener {

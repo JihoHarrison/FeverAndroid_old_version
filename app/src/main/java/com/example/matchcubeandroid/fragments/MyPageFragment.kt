@@ -163,11 +163,3 @@ class MyPageFragment : Fragment() {
         super.onDestroy()
     }
 }
-
-
-
-
-
-
-
-
