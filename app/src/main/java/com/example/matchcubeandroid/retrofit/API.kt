@@ -65,7 +65,7 @@ interface API {
         "accept: application/json",
         "content-type: application/json"
     )
-    @PATCH("update") // 로그인
+    @PATCH("myPage/update") // 로그인
     fun update(
         @Body params: HashMap<String, Any>
     ): Call<EditProfileModel>

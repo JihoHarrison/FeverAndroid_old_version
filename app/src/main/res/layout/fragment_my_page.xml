@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fillViewport="true">
+
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/txtMyPage"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/txtMyPage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:paddingTop="7sp"
-            android:text="마이피버"
-            android:textSize="25sp"></TextView>
+        android:layout_margin="10dp"
+        android:paddingTop="7sp"
+        android:text="마이피버"
+        android:textSize="25sp"></TextView>
 
 
-    </LinearLayout>
+</LinearLayout>
 
-    <RelativeLayout
+
+
+        <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -68,6 +73,11 @@
         android:layout_height="8dp"
         android:background="#808080" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -100,9 +110,6 @@
 
 
             </RelativeLayout>
-
-
-
 
 
             <RelativeLayout
@@ -143,6 +150,7 @@
                 android:layout_margin="10dp"
                 android:text="마이 리갈라"
                 android:textSize="20sp"></TextView>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
@@ -157,6 +165,7 @@
                 android:layout_marginTop="0dp" />
 
         </LinearLayout>
-
+    </LinearLayout>
 
 </LinearLayout>
+</ScrollView>

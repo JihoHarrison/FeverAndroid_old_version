@@ -17,7 +17,9 @@ import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_edit_my_profile.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
+import kotlinx.android.synthetic.main.fragment_my_page.txtName
 import okhttp3.internal.http.hasBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,11 +37,13 @@ class EditMyProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_my_profile)
 
         val editnickname: EditText = findViewById(R.id.editNickname)
+        val editname:EditText = findViewById(R.id.editName)
         val editphonenumber: EditText = findViewById(R.id.editPhoneNumber)
         val editbirthday: EditText = findViewById(R.id.editBirth)
 
 
-        Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
+
+        Client.retrofitService.accountId(MySharedPreferences.getUserId(this)).enqueue(object : Callback<AccountIdModel> {
             override fun onResponse(
                 call: Call<AccountIdModel>,
                 response: Response<AccountIdModel>
@@ -56,8 +60,10 @@ class EditMyProfileActivity : AppCompatActivity() {
                         .show()
                     Log.d("Account", "${response.body()?.toString()}")
                     editnickname.setText(data?.nickName)
+                    editname.setText(data?.name)
                     editphonenumber.setText(data?.phoneNumber)
                     editbirthday.setText(data?.birthday)
+
 
 
                 } else {
@@ -65,8 +71,7 @@ class EditMyProfileActivity : AppCompatActivity() {
                         this@EditMyProfileActivity,
                         response.body()?.responseMessage,
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                     Log.d("d", "${response.body()?.toString()}")
                 }
             }
@@ -79,31 +84,24 @@ class EditMyProfileActivity : AppCompatActivity() {
 
         })
 
-
+        btnUpdate.setOnClickListener {update(
+            editnickname.text.toString(),
+            editname.text.toString(),
+            editphonenumber.text.toString(),
+            editBirth.text.toString()
+        )}
 
     }
 
-
-
-
-    private fun update(accountId: String,
-                       name: String,
+    private fun update(name: String,
                        nickName: String,
-                       email: String,
                        phoneNumber: String,
-                       birthday: String,
-                       sex: String) {
+                       birthday: String) {
         var body = HashMap<String, Any>()
-        body.put("accountId", accountId)
         body.put("name", name)
         body.put("nickName", nickName)
-        body.put("email", email)
         body.put("phoneNumber", phoneNumber)
         body.put("birthday", birthday)
-        body.put("sex", sex)
-
-
-
 
         Client.retrofitService.update(body).enqueue(object : Callback<EditProfileModel> {
             override fun onResponse(
@@ -125,11 +123,8 @@ class EditMyProfileActivity : AppCompatActivity() {
 
                     //Log.d("account", "account  : " + MySharedPreferences.getUserId(this@RegisterActivity) )
 
-                    //startActivity(Intent(this@EditMyProfileActivity, MainActivity::class.java))
+                    startActivity(Intent(this@EditMyProfileActivity, MainActivity::class.java))
                     //finish()
-
-
-
 
                     Log.d("Account", "${response.body()?.toString()}")
 
