@@ -1,7 +1,5 @@
 package com.example.matchcubeandroid.model
 
-import retrofit2.http.Url
-
 data class MyTeamsModel (
     val statusCode: Int,
     val responseMessage: String,
