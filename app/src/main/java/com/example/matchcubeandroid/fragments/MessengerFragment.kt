@@ -13,22 +13,29 @@ import com.example.matchcubeandroid.activities.login.LoginActivity
 import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class
 MessengerFragment : Fragment()  {
 
+    //firebase Auth
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_coach, container, false)
         var context: Context = view.context
 
-        val account = GoogleSignIn.getLastSignedInAccount(context)
-        Log.d("JT Test1", "account : " + account)
-        if(account == null){
+        //firebase auth 객체
+        firebaseAuth = FirebaseAuth.getInstance()
+        toMainActivity(firebaseAuth?.currentUser)
+        return view
+    }
+
+    fun toMainActivity(user: FirebaseUser?) {
+        if(user ==null) { // MainActivity 로 이동
             startActivity(Intent(context, LoginActivity::class.java))
         }
-
-        return view
     }
 
     override fun onDestroy() {

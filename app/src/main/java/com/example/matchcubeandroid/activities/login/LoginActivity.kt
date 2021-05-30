@@ -3,13 +3,9 @@ package com.example.matchcubeandroid.activities.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
-import com.example.matchcubeandroid.model.AccountIdModel
-import com.example.matchcubeandroid.model.DefaultResponseModel
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.social.SocialType
 import com.example.matchcubeandroid.social.setSocialType
@@ -18,22 +14,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.fragment_my_page.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import kotlin.concurrent.thread
 
-
+// 구글 파이어베이스의 OAuth 토큰을 사용하기 위해서 카카오톡 로그인과 구글 로그인을 통합
+// 그래서 카카오톡 로그인 성공시 해당 정보를 갖고 구글로그인 가입이 되게 하여 토큰을 받을 수 있게
+// 즉 카카오톡 로그인 -> 구글 로그인 -> 가입 완료가 되는 절차
 class LoginActivity : AppCompatActivity() {
 
     //firebase Auth
@@ -43,6 +32,8 @@ class LoginActivity : AppCompatActivity() {
 
     //private const val TAG = "GoogleActivity"
     private val RC_SIGN_IN = 99
+
+    var getAccountYn: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,11 +96,12 @@ class LoginActivity : AppCompatActivity() {
                     val socialType = setSocialType(SocialType.GOOGLE)
                     Log.d("juntae1", "email : " + emailId + "social type : " + socialType)
 
-                    var getAccountYn: Int = 0
-
+                    // 동기 처리
                     thread(start = true){
                         getAccountYn = getAccountYn(emailId, socialType)
                     }
+
+                    Thread.sleep(1000L)
 
                     Log.d("getAccountYn1", "getAccountYn : " + getAccountYn)
                     if (getAccountYn == 100){
@@ -153,6 +145,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun getAccountYn(email: String, socialType: String): Int{ // DB 회원등록 여부 조회 동기처리
         val data = Client.retrofitService.isExstUser(email, socialType).execute()
+        Log.d("getAccountYn2", "getAccountYn : " + data)
         return data.body()?.statusCode!!
     }
 }
