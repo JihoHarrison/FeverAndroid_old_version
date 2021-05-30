@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.retrofit.Client
+import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.example.matchcubeandroid.social.SocialType
 import com.example.matchcubeandroid.social.setSocialType
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -34,6 +35,7 @@ class LoginActivity : AppCompatActivity() {
     private val RC_SIGN_IN = 99
 
     var getAccountYn: Int = 0
+    var accountId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val emailId = firebaseAuth.currentUser.email
                     val socialType = setSocialType(SocialType.GOOGLE)
+
                     Log.d("juntae1", "email : " + emailId + "social type : " + socialType)
 
                     // 동기 처리
@@ -105,6 +108,10 @@ class LoginActivity : AppCompatActivity() {
 
                     Log.d("getAccountYn1", "getAccountYn : " + getAccountYn)
                     if (getAccountYn == 100){
+
+                        Log.d("alstn", "accountId : " + accountId)
+                        MySharedPreferences.setUserId(this@LoginActivity, accountId )
+                        MySharedPreferences.setSocialType(this@LoginActivity, socialType)
                         toMainActivity(firebaseAuth?.currentUser)
                     }else{
                         // 회원가입 화면으로 이동
@@ -146,6 +153,7 @@ class LoginActivity : AppCompatActivity() {
     private fun getAccountYn(email: String, socialType: String): Int{ // DB 회원등록 여부 조회 동기처리
         val data = Client.retrofitService.isExstUser(email, socialType).execute()
         Log.d("getAccountYn2", "getAccountYn : " + data)
+        accountId = data.body()?.accountId!!
         return data.body()?.statusCode!!
     }
 }

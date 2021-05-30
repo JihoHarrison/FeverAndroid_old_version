@@ -9,18 +9,25 @@ import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.main.MainActivity
 import com.example.matchcubeandroid.model.DefaultResponseModel
 import com.example.matchcubeandroid.retrofit.Client
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_register.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import android.content.SharedPreferences
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
+import com.google.firebase.auth.FirebaseAuth
 
 class RegisterActivity : AppCompatActivity() {
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        //firebase auth 객체
+        firebaseAuth = FirebaseAuth.getInstance()
 
         lateinit var gender: String
         var termsOfService: Int = 0
@@ -59,6 +66,13 @@ class RegisterActivity : AppCompatActivity() {
             privacyPolicy,
             socialType.toString()
         )}
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        MySharedPreferences.clearUser(this )
+        // Firebase sign out
+        firebaseAuth.signOut()
     }
 
     // 회원 등록
