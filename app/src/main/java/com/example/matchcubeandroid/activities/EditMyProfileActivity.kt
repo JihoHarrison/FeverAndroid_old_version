@@ -71,8 +71,7 @@ class EditMyProfileActivity : AppCompatActivity() {
                         this@EditMyProfileActivity,
                         response.body()?.responseMessage,
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                     Log.d("d", "${response.body()?.toString()}")
                 }
             }
