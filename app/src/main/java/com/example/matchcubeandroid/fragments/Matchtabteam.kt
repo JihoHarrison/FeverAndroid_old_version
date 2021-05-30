@@ -24,7 +24,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import com.example.matchcubeandroid.model.ProfileModel
 import java.lang.IndexOutOfBoundsException
-import java.lang.NullPointerException
 import android.util.Log.d as logD
 
 class Matchtabteam : Fragment() {
@@ -79,14 +78,19 @@ class Matchtabteam : Fragment() {
             }
         })
 
-        Client.retrofitService.myTeamsDetail(0,"a", "노원구", "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
+
+        Client.retrofitService.myTeamsDetail(0,"abc", "노원구", "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
             override fun onResponse(call: Call<MatchTeamsDetailModel>, response: Response<MatchTeamsDetailModel>) {
 
                 if(response.body()!!.statusCode == 202){
                     Toast.makeText(context, "목록에 해당하는 팀이 없습니다.", Toast.LENGTH_SHORT).show()
                 }
-                var size = response.body()!!.data.size.toInt()
 
+                var size = try {
+                    response.body()!!.data.size.toInt()
+                } catch(e: NullPointerException){
+                    0
+                }
                 for(i in 0 until size){
                     detailTeamsList?.apply {
                         add(

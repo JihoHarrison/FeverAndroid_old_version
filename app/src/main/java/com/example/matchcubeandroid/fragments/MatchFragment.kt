@@ -63,13 +63,15 @@ class MatchFragment : Fragment() {
         //var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
         val sidoAdapter = LocateAdapter(context, matchLocateSido)
+        val gunguAdapter = LocateGunguAdapter(context, matchLocategungu)
 
-        // 위치 입력하기 위해 누르는 버튼
+        // 위치 입력하기 위해 누르는 버튼(시 * 도)
         btnLocate.setOnClickListener {
             Client.retrofitService.locate().enqueue(object : Callback<LocateModel>{
                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
                     if(response.body()!!.statusCode == 100){
                         var size = response.body()!!.data?.size
+
                         for(i in 0..size-1){
                             matchLocateSido.apply {
                                 add(
@@ -81,7 +83,6 @@ class MatchFragment : Fragment() {
                                     response.body()?.data?.get(i)!!.code
                                 )
                             }
-
                         }
                         showSidoDialog(context)
                     }
@@ -93,6 +94,7 @@ class MatchFragment : Fragment() {
 
                 fun showSidoDialog(context: Context){
                     val dialog = Dialog(context)
+                    val dialogGungu = Dialog(context)
                     dialog.setCancelable(false)
                     dialog.setContentView(R.layout.locate_dialog_sido)
 
@@ -100,11 +102,40 @@ class MatchFragment : Fragment() {
                     var btnCancel = dialog.findViewById<AppCompatImageButton>(R.id.btnCancel)
                     recyclerView.adapter = sidoAdapter
                     sidoAdapter.setItemClickListener(object : LocateAdapter.OnItemClickListener{
+                        /**군, 구 배열을 적용해야 함.**/
                         override fun onClick(v: View, position: Int) {
-                            /**여기서 군 * 구 다이얼로그 띄워줘야함.**/
-                        }
+                            /**리사이클러뷰 클릭 이벤트**/
+                            Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object: Callback<LocateModel>{
+                                override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
+                                        var size = response.body()!!.data.size
+                                        Toast.makeText(context, response.message().toString(), Toast.LENGTH_SHORT).show()
+                                        for(i in 0..size - 1){
+                                            matchLocategungu.apply {
+                                                add(
+                                                    response.body()!!.data.get(i).name
+                                                )
+                                            }
+                                            dialog.dismiss()
+                                            matchLocategungu.clear()
+                                            dialogGungu.setCancelable(true)
+                                            dialogGungu.setContentView(R.layout.locate_dialog_gungu)
+                                            var recyclerViewGungu: RecyclerView = dialogGungu.findViewById(R.id.gunguDialogRc)
+                                            recyclerViewGungu.adapter = gunguAdapter
+                                            recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
+                                            dialogGungu.show()
 
+                                        }
+
+
+                                }
+
+                                override fun onFailure(call: Call<LocateModel>, t: Throwable) {
+                                }
+                            })
+
+                        }
                     })
+
 
                     recyclerView.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                     btnCancel.setOnClickListener {
@@ -113,6 +144,7 @@ class MatchFragment : Fragment() {
                     dialog.show()
                 }
             })
+
         }
         /***여기에 선수 상세정보 불러와서 userId에 따라 세부 종목 불러우는 코드가 들어가야 한다***/
         Client.retrofitService.playersDetail(1).enqueue(object : Callback<PlayerDetailModel>{
@@ -180,7 +212,6 @@ class MatchFragment : Fragment() {
 }
 // 시 도 위치를 리사이클러뷰에 연결시켜주는 어뎁터
 class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateAdapter.ViewHolder>() {
-
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -224,4 +255,30 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataset.size
+}
+
+class LocateGunguAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateGunguAdapter.ViewHolder>() {
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
+        var textView = view.findViewById<TextView>(R.id.txtLocate)
+    }
+
+    // Create new views (invoked by the layout manager)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
+        // Create a new view, which defines the UI of the list item
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.recycler_items_white, viewGroup, false)
+
+        return ViewHolder(view)
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    override fun getItemCount() = dataset.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.textView.text = dataset.get(position)
+    }
 }
