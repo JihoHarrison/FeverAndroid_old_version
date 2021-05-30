@@ -168,12 +168,12 @@ class MatchFragment : Fragment() {
             override fun onResponse(call: Call<PlayerDetailModel>, response: Response<PlayerDetailModel>) {
 
                 // 이미지 처리 객체
-                var image_task: URLtoBitmapTask = URLtoBitmapTask()
-                image_task = URLtoBitmapTask().apply {
-                    url = URL(response.body()!!.data?.image.toString())
-                }
-                var bitmap: Bitmap = image_task.execute().get()
-                match_fragment_category_img.setImageBitmap(bitmap)
+//                var image_task: URLtoBitmapTask = URLtoBitmapTask()
+//                image_task = URLtoBitmapTask().apply {
+//                    url = URL(response.body()!!.data?.image)
+//                }
+//                var bitmap: Bitmap = image_task.execute().get()
+//                match_fragment_category_img.setImageBitmap(bitmap)
             }
 
             override fun onFailure(call: Call<PlayerDetailModel>, t: Throwable) {
