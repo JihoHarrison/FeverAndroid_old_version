@@ -60,14 +60,15 @@ interface API {
     fun playersDetail(@Path("userId") userId: Long): Call<PlayerDetailModel>
     // ID, PW 찾기
 
+    //프로필 수정 API
     @Headers(
         "accept: application/json",
         "content-type: application/json"
     )
     @PATCH("update") // 로그인
     fun update(
-        @Body params: HashMap<String, String>
-    ): Call<AccountIdModel>
+        @Body params: HashMap<String, Any>
+    ): Call<EditProfileModel>
 
     // 회원가입 여부 조회 API
     @Headers("accept: application/json",

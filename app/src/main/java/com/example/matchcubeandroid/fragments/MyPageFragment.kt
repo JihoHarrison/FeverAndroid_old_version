@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.activities.EditMyProfileActivity
+import com.example.matchcubeandroid.adapter.MatchtabTeamsAdapter
 import com.example.matchcubeandroid.adapter.OptionAdapter
 import com.example.matchcubeandroid.adapter.ProfileAdapter
 import com.example.matchcubeandroid.model.*
@@ -21,6 +22,7 @@ import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_edit_my_profile.*
+import kotlinx.android.synthetic.main.fragment_matchtabteam.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -43,6 +45,9 @@ class MyPageFragment : Fragment() {
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
         val name: TextView = view.findViewById(R.id.txtName)
+        var layoutInflater: LayoutInflater
+        var myTeamsLayoutContainer: ViewGroup = view.findViewById(R.id.MyPageTeams)
+        var profileList = ArrayList<ProfileModel>()
 
 
         Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
@@ -83,17 +88,31 @@ class MyPageFragment : Fragment() {
         Client.retrofitService.myTeams(1).enqueue(object : Callback<MyTeamsModel> {
             override fun onResponse(call: Call<MyTeamsModel>, response: Response<MyTeamsModel>) {
 
-                if (response.body()?.statusCode == 100) { // 100 : successful
-                    val data = response.body()?.data
-                    data?.let { Result.success(data) }
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("teamsId", "${response.body()?.toString()}")
 
+                if (response.body()?.statusCode == 204) { // 100 : successful
+                    Toast.makeText(context, "팀 멤버 정보 조회 실패", Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
-                        .show()
-                    Log.d("d", "${response.body()?.toString()}")
+                    var dataSize: Int = response.body()!!.data?.size!!
+
+                    if (dataSize == 0) { // 소속된 팀이 없을 경우
+                        layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                        layoutInflater.inflate(R.layout.default_my_teams_rc, myTeamsLayoutContainer, true)
+                    } else if (dataSize != 0) {
+                        for (i in 0 until dataSize) {
+                            profileList.apply {
+                                add(
+                                    ProfileModel(
+                                        response.body()!!.data?.get(i)?.teamImageUrl.toString(),
+                                        response.body()!!.data?.get(i)?.teamName.toString()
+                                    )
+                                )
+                            }
+                            rvTeamProfImgs.layoutManager =
+                                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                            rvTeamProfImgs.setHasFixedSize(true)
+                            rvTeamProfImgs.adapter = ProfileAdapter(context, profileList)
+                        }
+                    }
                 }
             }
 
@@ -110,19 +129,8 @@ class MyPageFragment : Fragment() {
         val opsList: ListView = view.findViewById(R.id.options)
         btn.setOnClickListener {
             startActivity(Intent(context, EditMyProfileActivity::class.java))
-
-
         }
 
-
-        val profileList = arrayListOf( // DB에 저장된 값으로 수정 가능 할 것으로 보임!
-            ProfileModel(R.drawable.ic_android_drawer, "토트넘")
-        )
-
-        rvTeamProfImgs.layoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        rvTeamProfImgs.setHasFixedSize(true)
-        rvTeamProfImgs.adapter = ProfileAdapter(profileList)
 
         val optionList = arrayListOf<OptionModel>(
             //옵션 메뉴
@@ -132,7 +140,6 @@ class MyPageFragment : Fragment() {
         )
 
         val Adapter = OptionAdapter(context, optionList)
-
         opsList.adapter = Adapter
 
         // 클릭이벤트 활성화 해야함(수정 필요)
