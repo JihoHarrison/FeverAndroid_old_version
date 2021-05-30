@@ -111,6 +111,7 @@ class LoginActivity : AppCompatActivity() {
 
                         Log.d("alstn", "accountId : " + accountId)
                         MySharedPreferences.setUserId(this@LoginActivity, accountId )
+                        Log.d("alstn2", "accountId : " + MySharedPreferences.getUserId(this))
                         MySharedPreferences.setSocialType(this@LoginActivity, socialType)
                         toMainActivity(firebaseAuth?.currentUser)
                     }else{

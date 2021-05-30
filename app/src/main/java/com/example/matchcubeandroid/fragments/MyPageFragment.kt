@@ -41,13 +41,15 @@ class MyPageFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         val view: View = inflater!!.inflate(R.layout.fragment_my_page, container, false)
         var context: Context = view.context
         val name: TextView = view.findViewById(R.id.txtName)
         var layoutInflater: LayoutInflater
         var myTeamsLayoutContainer: ViewGroup = view.findViewById(R.id.MyPageTeams)
         var profileList = ArrayList<ProfileModel>()
+        val btn: TextView = view.findViewById(R.id.btnEditMyProfile)
+        val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
+        val opsList: ListView = view.findViewById(R.id.options)
 
         Log.d("minjun", "account : " + MySharedPreferences.getUserId(context))
 
@@ -80,11 +82,6 @@ class MyPageFragment : Fragment() {
             }
 
         })
-
-
-
-
-
 
         Client.retrofitService.myTeams(1).enqueue(object : Callback<MyTeamsModel> {
             override fun onResponse(call: Call<MyTeamsModel>, response: Response<MyTeamsModel>) {
@@ -125,13 +122,9 @@ class MyPageFragment : Fragment() {
 
         })
 
-        val btn: TextView = view.findViewById(R.id.btnEditMyProfile)
-        val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
-        val opsList: ListView = view.findViewById(R.id.options)
         btn.setOnClickListener {
             startActivity(Intent(context, EditMyProfileActivity::class.java))
         }
-
 
         val optionList = arrayListOf<OptionModel>(
             //옵션 메뉴
@@ -156,13 +149,8 @@ class MyPageFragment : Fragment() {
                 Toast.makeText(context, "앱설정", Toast.LENGTH_SHORT).show()
             }
         }
-
-
         return view
     }
-
-
-
 
     override fun onDestroy() {
         if (MySharedPreferences.getAutoChecked(requireContext()).equals("N")) {

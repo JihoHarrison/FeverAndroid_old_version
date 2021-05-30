@@ -3,6 +3,7 @@ package com.example.matchcubeandroid.activities.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import com.example.matchcubeandroid.*
@@ -26,8 +27,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        MySharedPreferences.setUserId(this, 1)
-        MySharedPreferences.getUserId(this)
         bottom_navigation_view.setOnNavigationItemSelectedListener(this)
 
         val fragMath = MatchFragment()
