@@ -35,6 +35,7 @@ import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_match.*
 import kotlinx.android.synthetic.main.fragment_matchtabteam.*
+import kotlinx.android.synthetic.main.locate_dialog_gungu.*
 import kotlinx.android.synthetic.main.locate_dialog_sido.*
 import okhttp3.internal.notify
 import okhttp3.internal.notifyAll
@@ -57,9 +58,12 @@ class MatchFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
         val sidoDialogView = inflater.inflate(R.layout.locate_dialog_sido, null)
+
         btnLocate = view.findViewById(R.id.btnLocate)
         sidoDialogRc = sidoDialogView.findViewById(R.id.sidoDialogRc)
         var context: Context = view.context
+        val dialog = Dialog(context)
+        val dialogGungu = Dialog(context)
         //var cityCode: Int = 11 // 서울 cityCode
         var i:Int = 0 // 제어변수
         val sidoAdapter = LocateAdapter(context, matchLocateSido)
@@ -94,14 +98,14 @@ class MatchFragment : Fragment() {
                 }
 
                 fun showSidoDialog(context: Context){
-                    val dialog = Dialog(context)
-                    val dialogGungu = Dialog(context)
                     dialog.setCancelable(false)
                     dialog.setContentView(R.layout.locate_dialog_sido)
 
                     var recyclerView: RecyclerView = dialog.findViewById(R.id.sidoDialogRc)
                     var btnCancel = dialog.findViewById<AppCompatImageButton>(R.id.btnCancel)
+
                     recyclerView.adapter = sidoAdapter
+
                     sidoAdapter.setItemClickListener(object : LocateAdapter.OnItemClickListener{
                         /**군, 구 배열을 적용해야 함.**/
                         override fun onClick(v: View, position: Int) {
@@ -125,7 +129,9 @@ class MatchFragment : Fragment() {
                                     recyclerViewGungu.adapter = gunguAdapter
                                     recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                                     dialogGungu.show()
+
                                 }
+
 
                                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
 
@@ -134,12 +140,21 @@ class MatchFragment : Fragment() {
                         }
                     })
 
+
+                    gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
+                        override fun onClick(v: View, position: Int) {
+                            dialogGungu.dismiss()
+                        }
+
+                    })
+
                     recyclerView.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                     btnCancel.setOnClickListener {
                         dialog.dismiss()
                     }
                     dialog.show()
                 }
+
             })
 
         }
@@ -278,4 +293,14 @@ class LocateGunguAdapter(context: Context, private val dataset: ArrayList<String
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataset.get(position)
     }
+
+    interface OnItemClickListener{
+        fun onClick(v: View, position: Int)
+    }
+
+    fun setItemClickListener(onItemClickListener: OnItemClickListener){
+        this.itemClickListener = onItemClickListener
+    }
+
+    private lateinit var itemClickListener : OnItemClickListener
 }
