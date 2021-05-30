@@ -43,7 +43,7 @@ class EditMyProfileActivity : AppCompatActivity() {
 
 
 
-        Client.retrofitService.accountId(1).enqueue(object : Callback<AccountIdModel> {
+        Client.retrofitService.accountId(MySharedPreferences.getUserId(this)).enqueue(object : Callback<AccountIdModel> {
             override fun onResponse(
                 call: Call<AccountIdModel>,
                 response: Response<AccountIdModel>
@@ -125,9 +125,6 @@ class EditMyProfileActivity : AppCompatActivity() {
 
                     startActivity(Intent(this@EditMyProfileActivity, MainActivity::class.java))
                     //finish()
-
-
-
 
                     Log.d("Account", "${response.body()?.toString()}")
 
