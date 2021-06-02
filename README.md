@@ -12,11 +12,10 @@ Spring Boot를 이용해 RestAPI 서버 개발을 진행하면서 안드로이�
   * 김민준 :
 ## 2.개발 범위
 * 개발환경 
-  * 개발언어 : JAVA 1.8
-  * 프레임워크 : Spirng boot2
-  * DB : MySQL 5.7
-  * Cloud : AWS Ec2 Instance
-  * 프로젝트 관리도구 : Maven
+  * 개발언어 : Kotlin 1.5
+  * 프레임워크 : 
+  * Cloud : Firebase
+  * 프로젝트 관리도구 : Gradle
   * IDE : IntelliJ
 * 안드로이드 적용 기술사례    
   * Retrofit2 + Gson을 이용하여 비동기,동기 통신 작업
