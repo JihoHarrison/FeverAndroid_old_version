@@ -63,8 +63,7 @@ class MyPageFragment : Fragment() {
                 if (response.body()?.statusCode == 100) { // 100 : successful
                     val data = response.body()?.data
                     data?.let { Result.success(data) }
-                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, response.body()?.responseMessage, Toast.LENGTH_SHORT).show()
                     Log.d("Account", "${response.body()?.toString()}")
                     name.setText(data?.name)
 

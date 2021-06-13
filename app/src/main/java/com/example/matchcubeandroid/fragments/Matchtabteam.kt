@@ -78,7 +78,7 @@ class Matchtabteam : Fragment() {
             }
         })
 
-        Client.retrofitService.myTeamsDetail(0,"abc", 0, "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
+        Client.retrofitService.myTeamsDetail(0,"abcde", 0, "famous", "default","default","default").enqueue(object : Callback<MatchTeamsDetailModel>{
             override fun onResponse(call: Call<MatchTeamsDetailModel>, response: Response<MatchTeamsDetailModel>) {
 
                 if(response.body()!!.statusCode == 202){
