@@ -225,7 +225,6 @@ class MatchFragment : Fragment() {
         viewPagers!!.adapter = adapter
         tabLayouts!!.setupWithViewPager(viewPagers)
     }
-
 }
 // 시 도 위치를 리사이클러뷰에 연결시켜주는 어뎁터
 class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateAdapter.ViewHolder>() {
