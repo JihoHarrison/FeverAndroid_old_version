@@ -26,7 +26,6 @@ import androidx.viewpager.widget.ViewPager
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.MatchTabTeamPlrAdapter
 import com.example.matchcubeandroid.adapter.MatchtabTeamsAdapter
-import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.LocateModel
 import com.example.matchcubeandroid.model.PlayerDetail
 import com.example.matchcubeandroid.model.PlayerDetailModel

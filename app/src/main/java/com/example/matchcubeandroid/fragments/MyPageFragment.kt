@@ -20,10 +20,10 @@ import com.example.matchcubeandroid.adapter.ProfileAdapter
 import com.example.matchcubeandroid.model.*
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
-import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_edit_my_profile.*
-import kotlinx.android.synthetic.main.fragment_matchtabteam.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.fragment_my_page.*
+import de.hdodenhof.circleimageview.CircleImageView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,6 +50,7 @@ class MyPageFragment : Fragment() {
         val btn: TextView = view.findViewById(R.id.btnEditMyProfile)
         val rvTeamProfImgs: RecyclerView = view.findViewById(R.id.rvTeamProfImgs)
         val opsList: ListView = view.findViewById(R.id.options)
+        val imgProfile : CircleImageView = view.findViewById((R.id.imgProfile))
 
         Log.d("minjun", "account : " + MySharedPreferences.getUserId(context))
 
@@ -129,7 +130,7 @@ class MyPageFragment : Fragment() {
             //옵션 메뉴
             OptionModel("공지사항"),
             OptionModel("이용약관"),
-            OptionModel("앱 설정"),
+            OptionModel("앱 설정")
         )
 
         val Adapter = OptionAdapter(context, optionList)
