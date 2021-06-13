@@ -11,11 +11,11 @@
         android:icon="@drawable/ic_home"/>
 
     <item android:id="@+id/tabCubeGround" android:title="C.G"
-        android:icon="@drawable/baseline_chat_bubble_black_24"/>
+        android:icon="@drawable/ic_chat"/>
 
     <item android:id="@+id/tabCoach" android:title="코치"
         app:showAsAction="always"
-        android:icon="@drawable/baseline_thumbs_up_down_black_18dp"/>
+        android:icon="@drawable/ic_mypage"/>
 
     <item android:id="@+id/tabMyPage" android:title="마이 피버"
         app:showAsAction="withText"
