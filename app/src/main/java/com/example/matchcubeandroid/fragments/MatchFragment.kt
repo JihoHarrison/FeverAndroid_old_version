@@ -164,7 +164,7 @@ class MatchFragment : Fragment() {
 
         }
         /***여기에 선수 상세정보 불러와서 userId에 따라 세부 종목 불러우는 코드가 들어가야 한다***/
-        Client.retrofitService.playersDetail(1).enqueue(object : Callback<PlayerDetailModel>{
+        Client.retrofitService.playersDetail(MySharedPreferences.getUserId(context).toLong()).enqueue(object : Callback<PlayerDetailModel>{
             override fun onResponse(call: Call<PlayerDetailModel>, response: Response<PlayerDetailModel>) {
 
                 // 이미지 처리 객체
