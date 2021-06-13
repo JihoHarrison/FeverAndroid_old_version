@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.matchcubeandroid.R
-import com.example.matchcubeandroid.image.URLtoBitmapTask
 import com.example.matchcubeandroid.model.MatchtabTeamsModel
 import com.example.matchcubeandroid.model.ProfileModel
 import de.hdodenhof.circleimageview.CircleImageView
