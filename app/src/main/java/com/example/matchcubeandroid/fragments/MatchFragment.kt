@@ -1,23 +1,16 @@
 package com.example.matchcubeandroid.fragments
 
-import android.R.string
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Insets.add
 import android.os.Bundle
-import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.*
-import androidx.appcompat.view.menu.ActionMenuItemView
+import android.widget.FrameLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatImageButton
-import androidx.core.view.OneShotPreDrawListener.add
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,28 +18,21 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
 import com.example.matchcubeandroid.R
 import com.example.matchcubeandroid.adapter.MatchTabTeamPlrAdapter
-import com.example.matchcubeandroid.adapter.MatchtabTeamsAdapter
 import com.example.matchcubeandroid.model.LocateModel
-import com.example.matchcubeandroid.model.PlayerDetail
 import com.example.matchcubeandroid.model.PlayerDetailModel
 import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_match.*
-import kotlinx.android.synthetic.main.fragment_matchtabteam.*
-import kotlinx.android.synthetic.main.locate_dialog_gungu.*
-import kotlinx.android.synthetic.main.locate_dialog_sido.*
-import okhttp3.internal.notify
-import okhttp3.internal.notifyAll
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URL
 
 class MatchFragment : Fragment() {
 
     private lateinit var viewPagers: ViewPager
     private lateinit var tabLayouts: TabLayout
+    private lateinit var indicator: View
     private lateinit var btnLocate: AppCompatButton
     private lateinit var sidoDialogRc: RecyclerView
 
@@ -56,12 +42,18 @@ class MatchFragment : Fragment() {
     private val matchLocatecode:ArrayList<Int> = ArrayList() // 시 도의 코드값을 저장 해 놓을 ArrayList
     private val matchLocategungu:ArrayList<String> = ArrayList()
 
+    private var indicatorWidth = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
         val sidoDialogView = inflater.inflate(R.layout.locate_dialog_sido, null)
 
         btnLocate = view.findViewById(R.id.btnLocate)
         sidoDialogRc = sidoDialogView.findViewById(R.id.sidoDialogRc)
+        tabLayouts = view.findViewById(R.id.matchTabLayout)//
+        viewPagers = view.findViewById(R.id.matchViewPager)//
+        indicator = view.findViewById(R.id.indicator)//
+
         var context: Context = view.context
 
         //var cityCode: Int = 11 // 서울 cityCode
@@ -121,7 +113,7 @@ class MatchFragment : Fragment() {
                                         for(i in 0..size - 1){
                                             matchLocategungu.apply {
                                                 add(
-                                                    response.body()!!.data.get(i).name
+                                                    response.body()!!.data[i].name
                                                 )
                                             }
                                         }
@@ -138,9 +130,11 @@ class MatchFragment : Fragment() {
                                     recyclerViewGungu.adapter = gunguAdapter
                                     recyclerViewGungu.layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false)
                                     dialogGungu.show()
+
                                     gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
                                         override fun onClick(v: View, position: Int) {
                                             /** 위치를 선택하세요 버튼의 텍스트를 지정 해 줘야 함 **/
+
                                         }
                                     })
                                 }
@@ -189,6 +183,26 @@ class MatchFragment : Fragment() {
 
         setUpViewPager()
 
+        viewPagers.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                val params = indicator.getLayoutParams() as FrameLayout.LayoutParams
+                //Multiply positionOffset with indicatorWidth to get translation
+                val translationOffset: Float = (positionOffset + position) * indicatorWidth
+                params.leftMargin = translationOffset.toInt()
+                indicator.setLayoutParams(params)
+            }
+
+            override fun onPageSelected(position: Int) {
+
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+
+            }
+
+        })
+
+
 
         /**선수, 팀 탭이 선택 , 재선택 , 선택되지 않았을 시**/
         tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -203,7 +217,6 @@ class MatchFragment : Fragment() {
             override fun onTabReselected(tab: TabLayout.Tab?) {
 
             }
-
         })
 
     }
@@ -214,8 +227,6 @@ class MatchFragment : Fragment() {
     }
 
     private fun setUpViewPager(){
-        viewPagers = matchViewPager
-        tabLayouts = matchTabLayout
 
         var adapter = MatchTabTeamPlrAdapter(fragmentManager!!)
         adapter.addFragment(Matchtabteam(), "팀")
@@ -223,6 +234,18 @@ class MatchFragment : Fragment() {
 
         viewPagers!!.adapter = adapter
         tabLayouts!!.setupWithViewPager(viewPagers)
+
+        tabLayouts.post(Runnable{
+            /**View(id:indicator)로 tablayout의 길이를 계산하여 tabItems를 둥글게 적용**/
+            indicatorWidth = tabLayouts.width / tabLayouts.tabCount
+            var indicatorParams: FrameLayout.LayoutParams = indicator.layoutParams as FrameLayout.LayoutParams
+            indicatorParams.width = indicatorWidth
+            indicator.layoutParams = indicatorParams
+
+        })
+
+
+
     }
 }
 // 시 도 위치를 리사이클러뷰에 연결시켜주는 어뎁터
@@ -232,7 +255,7 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
      * (custom ViewHolder).
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        var textView = view.findViewById<TextView>(R.id.txtLocate)
+        var textView: TextView = view.findViewById<TextView>(R.id.txtLocate)
     }
 
     // Create new views (invoked by the layout manager)
@@ -249,7 +272,7 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.textView.text = dataset.get(position)
+        viewHolder.textView.text = dataset[position]
 
         // 인터페이스로 각각의 아이템이 지금 이 클래스 외부에서 클릭 되었을 때 onClick 함수 재정의 시킴.
         viewHolder.itemView.setOnClickListener{
@@ -261,6 +284,7 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
     interface OnItemClickListener{
         fun onClick(v: View, position: Int)
     }
+
 
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener

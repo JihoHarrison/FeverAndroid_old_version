@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         app:labelVisibilityMode="labeled"
-        android:background="#808080"
+        android:background="@color/white"
         app:itemTextColor="#000000"
         app:itemIconTint="#000000"
         app:menu="@menu/menu_bottom"/>
