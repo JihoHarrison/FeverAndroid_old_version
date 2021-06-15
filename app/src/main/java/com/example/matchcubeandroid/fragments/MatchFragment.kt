@@ -1,7 +1,10 @@
 package com.example.matchcubeandroid.fragments
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -24,9 +27,12 @@ import com.example.matchcubeandroid.retrofit.Client
 import com.example.matchcubeandroid.sharedPreferences.MySharedPreferences
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_match.*
+import kotlinx.android.synthetic.main.locate_dialog_gungu.*
+import kotlinx.android.synthetic.main.locate_dialog_sido.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.StringBuilder
 
 class MatchFragment : Fragment() {
 
@@ -35,6 +41,8 @@ class MatchFragment : Fragment() {
     private lateinit var indicator: View
     private lateinit var btnLocate: AppCompatButton
     private lateinit var sidoDialogRc: RecyclerView
+    private lateinit var dialog: Dialog
+    private lateinit var dialogGungu: Dialog
 
     private lateinit var btnBack: AppCompatImageButton
 
@@ -43,16 +51,18 @@ class MatchFragment : Fragment() {
     private val matchLocategungu:ArrayList<String> = ArrayList()
 
     private var indicatorWidth = 0
+    var myLocation: String? = null /**이중 다이얼로그로 선택한 최종적인 나의 위치를 저장 해 놓을 문자열 변수.**/
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
         val sidoDialogView = inflater.inflate(R.layout.locate_dialog_sido, null)
 
         btnLocate = view.findViewById(R.id.btnLocate)
         sidoDialogRc = sidoDialogView.findViewById(R.id.sidoDialogRc)
-        tabLayouts = view.findViewById(R.id.matchTabLayout)//
-        viewPagers = view.findViewById(R.id.matchViewPager)//
-        indicator = view.findViewById(R.id.indicator)//
+        tabLayouts = view.findViewById(R.id.matchTabLayout)
+        viewPagers = view.findViewById(R.id.matchViewPager)
+        indicator = view.findViewById(R.id.indicator)
 
         var context: Context = view.context
 
@@ -90,8 +100,8 @@ class MatchFragment : Fragment() {
                 }
 
                 fun showSidoDialog(context1: Context){
-                    val dialog = Dialog(context)
-                    val dialogGungu = Dialog(context)
+                    dialog = Dialog(context1)
+                    dialogGungu = Dialog(context1)
                     dialog.setCancelable(false)
                     dialog.setContentView(R.layout.locate_dialog_sido)
 
@@ -103,8 +113,9 @@ class MatchFragment : Fragment() {
                     sidoAdapter.setItemClickListener(object : LocateAdapter.OnItemClickListener{
                         /**군, 구 배열을 적용해야 함.**/
                         override fun onClick(v: View, position: Int) {
-                            matchLocategungu.clear()
-                            dialog.dismiss()
+                            myLocation = null // 다이얼로그가 생성되기 전에 내 전역 위치는 항상 초기화되어 사용자가 입력하는 값을 다시 가져와야함
+                            matchLocategungu.clear() // 이 부분 역시 리사이클러뷰에 누적되는 현상을 막기 위함
+                            dialog.dismiss() // 클릭 시 this는 사라지고 다음 다이얼로그 상자가 나와야 함
                             /**리사이클러뷰 클릭 이벤트**/
                             Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object: Callback<LocateModel>{
                                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
@@ -134,7 +145,9 @@ class MatchFragment : Fragment() {
                                     gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
                                         override fun onClick(v: View, position: Int) {
                                             /** 위치를 선택하세요 버튼의 텍스트를 지정 해 줘야 함 **/
-
+                                            btnLocate.setText(matchLocategungu.get(position))
+                                            dialogGungu.dismiss()
+                                            myLocation += matchLocategungu // 전역 내 위치
                                         }
                                     })
                                 }
@@ -202,8 +215,6 @@ class MatchFragment : Fragment() {
 
         })
 
-
-
         /**선수, 팀 탭이 선택 , 재선택 , 선택되지 않았을 시**/
         tabLayouts.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -218,9 +229,7 @@ class MatchFragment : Fragment() {
 
             }
         })
-
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -243,17 +252,11 @@ class MatchFragment : Fragment() {
             indicator.layoutParams = indicatorParams
 
         })
-
-
-
     }
 }
-// 시 도 위치를 리사이클러뷰에 연결시켜주는 어뎁터
+/**시 도 리사이클러뷰 어댑터 클래스. ViewHolder 생성 시점에 setOnClickListener 재정의 함. **/
 class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateAdapter.ViewHolder>() {
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         var textView: TextView = view.findViewById<TextView>(R.id.txtLocate)
     }
@@ -278,13 +281,11 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
         viewHolder.itemView.setOnClickListener{
             itemClickListener.onClick(it, position)
         }
-
     }
 
     interface OnItemClickListener{
         fun onClick(v: View, position: Int)
     }
-
 
     fun setItemClickListener(onItemClickListener: OnItemClickListener){
         this.itemClickListener = onItemClickListener
@@ -295,14 +296,11 @@ class LocateAdapter(context: Context, private val dataset: ArrayList<String>) : 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataset.size
 }
-
+/**군 구 리사이클러뷰 어댑터 클래스. LocateSidoAdapter와 마찬가지로 ViewHolder 생성 시점에 setOnClickListener 재정의 함. **/
 class LocateGunguAdapter(context: Context, private val dataset: ArrayList<String>) : RecyclerView.Adapter<LocateGunguAdapter.ViewHolder>() {
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
-        var textView = view.findViewById<TextView>(R.id.txtLocate)
+        var textView: TextView = view.findViewById<TextView>(R.id.txtLocate)
     }
 
     // Create new views (invoked by the layout manager)
@@ -319,6 +317,9 @@ class LocateGunguAdapter(context: Context, private val dataset: ArrayList<String
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.textView.text = dataset.get(position)
+        holder.itemView.setOnClickListener{
+            itemClickListener.onClick(it, position)
+        }
     }
 
     interface OnItemClickListener{
