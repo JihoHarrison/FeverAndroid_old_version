@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
@@ -45,6 +46,7 @@ class MatchFragment : Fragment() {
     private lateinit var dialogGungu: Dialog
 
     private lateinit var btnBack: AppCompatImageButton
+    private lateinit var btnGunguCancel: AppCompatImageButton
 
     private val matchLocateSido:ArrayList<String> = ArrayList()
     private val matchLocatecode:ArrayList<Int> = ArrayList() // 시 도의 코드값을 저장 해 놓을 ArrayList
@@ -53,7 +55,6 @@ class MatchFragment : Fragment() {
     private var indicatorWidth = 0
     var myLocation: String? = null /**이중 다이얼로그로 선택한 최종적인 나의 위치를 저장 해 놓을 문자열 변수.**/
 
-    @SuppressLint("ResourceType")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_match, container, false)
         val sidoDialogView = inflater.inflate(R.layout.locate_dialog_sido, null)
@@ -70,6 +71,8 @@ class MatchFragment : Fragment() {
         var i:Int = 0 // 제어변수
         val sidoAdapter = LocateAdapter(context, matchLocateSido)
         val gunguAdapter = LocateGunguAdapter(context, matchLocategungu)
+
+
 
         // 위치 입력하기 위해 누르는 버튼(시 * 도)
         btnLocate.setOnClickListener {
@@ -107,6 +110,8 @@ class MatchFragment : Fragment() {
 
                     var recyclerView: RecyclerView = dialog.findViewById(R.id.sidoDialogRc)
                     var btnCancel = dialog.findViewById<AppCompatImageButton>(R.id.btnCancel)
+                    var btngungucancel = dialogGungu.findViewById<AppCompatImageButton>(R.id.btnGunguCancel)
+
 
                     recyclerView.adapter = sidoAdapter
 
@@ -120,7 +125,7 @@ class MatchFragment : Fragment() {
                             Client.retrofitService.locateDetail(matchLocatecode[position]).enqueue(object: Callback<LocateModel>{
                                 override fun onResponse(call: Call<LocateModel>, response: Response<LocateModel>) {
                                         var size = response.body()!!.data.size
-                                        Toast.makeText(context, response.message().toString(), Toast.LENGTH_SHORT).show()
+                                        //Toast.makeText(context, response.message().toString(), Toast.LENGTH_SHORT).show()
                                         for(i in 0..size - 1){
                                             matchLocategungu.apply {
                                                 add(
@@ -130,11 +135,16 @@ class MatchFragment : Fragment() {
                                         }
                                     dialog.dismiss()
                                     dialogGungu.setCancelable(true)
+                                    /**군, 구 다이얼로그 창에 있는 뷰(back, cancel 버튼들)들을 처리하는 부분**/
                                     dialogGungu.setContentView(R.layout.locate_dialog_gungu).let{
                                         btnBack = dialogGungu.findViewById(R.id.btnBackGungu)
+                                        btnGunguCancel = dialogGungu.findViewById(R.id.btnGunguCancel)
                                         btnBack.setOnClickListener {
                                             dialogGungu.dismiss()
                                             dialog.show()
+                                        }
+                                        btnGunguCancel.setOnClickListener {
+                                            dialogGungu.dismiss()
                                         }
                                     }
                                     var recyclerViewGungu: RecyclerView = dialogGungu.findViewById(R.id.gunguDialogRc)
@@ -144,17 +154,23 @@ class MatchFragment : Fragment() {
 
                                     gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
                                         override fun onClick(v: View, position: Int) {
+
                                             /** 위치를 선택하세요 버튼의 텍스트를 지정 해 줘야 함 **/
                                             btnLocate.setText(matchLocategungu.get(position))
                                             dialogGungu.dismiss()
                                             myLocation += matchLocategungu // 전역 내 위치
                                         }
+
                                     })
+
+
                                 }
                                 override fun onFailure(call: Call<LocateModel>, t: Throwable) {
 
                                 }
+
                             })
+
                         }
                     })
 
@@ -162,7 +178,6 @@ class MatchFragment : Fragment() {
                     btnCancel.setOnClickListener {
                         dialog.dismiss()
                     }
-
                     dialog.show()
                 }
 
@@ -185,6 +200,7 @@ class MatchFragment : Fragment() {
             override fun onFailure(call: Call<PlayerDetailModel>, t: Throwable) {
                 Toast.makeText(context, "선수 정보 조회 실패", Toast.LENGTH_SHORT).show()
             }
+
 
         })
 
@@ -212,7 +228,6 @@ class MatchFragment : Fragment() {
             override fun onPageScrollStateChanged(state: Int) {
 
             }
-
         })
 
         /**선수, 팀 탭이 선택 , 재선택 , 선택되지 않았을 시**/
