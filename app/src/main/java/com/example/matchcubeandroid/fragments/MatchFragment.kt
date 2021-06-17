@@ -154,12 +154,15 @@ class MatchFragment : Fragment() {
 
                                     gunguAdapter.setItemClickListener(object : LocateGunguAdapter.OnItemClickListener{
                                         override fun onClick(v: View, position: Int) {
-
                                             /** 위치를 선택하세요 버튼의 텍스트를 지정 해 줘야 함 **/
-                                            btnLocate.setText(matchLocategungu.get(position))
+                                            btnLocate.text = matchLocategungu[position]
                                             dialogGungu.dismiss()
                                             myLocation += matchLocategungu // 전역 내 위치
+
+
                                         }
+
+
 
                                     })
 
@@ -184,6 +187,7 @@ class MatchFragment : Fragment() {
             })
 
         }
+
         /***여기에 선수 상세정보 불러와서 userId에 따라 세부 종목 불러우는 코드가 들어가야 한다***/
         Client.retrofitService.playersDetail(MySharedPreferences.getUserId(context).toLong()).enqueue(object : Callback<PlayerDetailModel>{
             override fun onResponse(call: Call<PlayerDetailModel>, response: Response<PlayerDetailModel>) {
@@ -203,6 +207,11 @@ class MatchFragment : Fragment() {
 
 
         })
+        if(myLocation == null){
+            Toast.makeText(context, "mylocation null", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(context, myLocation, Toast.LENGTH_SHORT).show()
+        }
 
         return view
     }
