@@ -20,4 +20,5 @@
         <item name="android:windowBackground">@drawable/matchcube_splash</item>
 
     </style>
+
 </resources>
