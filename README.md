@@ -19,7 +19,3 @@
   * SharedPreferences를 이용하여 FCM토큰 값 관리
   * Glide 라이브러리를 이용하여 이미지 처리
   * Lottie를 이용하여 애니메이션 작업
-
-## 3.마무리
-  바바이
-
